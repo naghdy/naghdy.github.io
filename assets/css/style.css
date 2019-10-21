@@ -1,0 +1,252 @@
+/* Base CSS */
+.alignleft {
+    float: left;
+    margin-right: 15px;
+}
+.alignright {
+    float: right;
+    margin-left: 15px;
+}
+.aligncenter {
+    display: block;
+    margin: 0 auto 15px;
+}
+a:focus { outline: 0 solid }
+img {
+    max-width: 100%;
+    height: auto;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 15px;
+  color: #231f20;
+  font-family: 'Open Sans', sans-serif;
+}
+body {
+  color: #545051;
+  font-weight: 300;
+  font-family: 'Open Sans', sans-serif;
+}
+h1{color: #4574ba;}
+
+
+
+.selector-for-some-widget {
+  box-sizing: content-box;
+}
+a:hover { text-decoration: none }
+
+
+
+
+
+
+@font-face {
+  font-family: TTCommons-Regular;
+  src: url(../fonts/TTCommons-Regular.ttf);
+}
+
+
+@font-face {
+  font-family: TTCommons-Black;
+  src: url(../fonts/TTCommons-Black.ttf);
+}
+
+@font-face {
+  font-family: TTCommons-Medium;
+  src: url(../fonts/TTCommons-Medium.ttf);
+}
+
+@font-face {
+  font-family: TTCommons-Bold;
+  src: url(../fonts/TTCommons-Bold.ttf);
+}
+
+@font-face {
+  font-family: Kalam-Regular;
+  src: url(../fonts/Kalam-Regular.ttf);
+}
+
+
+
+
+
+
+
+/* Header bar section start */
+
+
+
+.title {
+  text-align: center;
+  padding-top: 50px;
+}   
+.title h1 {
+  color: #000;
+  font-size: ;
+  font-size: 80px;
+  font-weight: bold;
+  font-family: TTCommons-Black;
+  letter-spacing: 1px;
+  line-height: 65px;
+}
+.title p {
+  color: ##707070;
+  font-size: 26px;
+  letter-spacing: .5px;
+   font-family: TTCommons-Regular;
+   line-height: 28px;
+
+}
+.title p span {
+    color: #000;
+    font-family: TTCommons-Medium;
+}
+
+.single-txt p {
+  font-size: 24px;
+  text-align: center;
+  font-family: Kalam-Regular;
+  color: #212121
+}
+.single-txt {
+  text-align: center;
+  position: relative;
+}
+.featured {
+  text-align: center;
+  width: 100%;
+}
+
+.single-txt a {
+  font-size: 20px;
+  background: #FE0002;
+  color: #fff;
+  letter-spacing: .4px;
+  padding: 7px 30px;
+  display: inline-block;
+  border-radius: 25px;
+  font-weight: 500;
+  font-family: TTCommons-Medium;
+  padding-right: 60px;
+  padding-top: 11px;
+  margin-top: 9px;
+}
+
+.featured img {
+  max-width: 850px;
+}
+.single-txt img {
+  position: absolute;
+  right: ;
+  width: 50px;
+}
+.single-txt.text-1 img {
+  margin-right: ;
+  left: 45%;
+  width: 40px;
+}
+.featured {
+  margin-top: 20px;
+}
+.single-txt.txt-2 img {
+  width: 40px;
+  left: 20%;
+}
+.single-txt.text-1 p {
+  transition: ;
+  transform: rotate(-7deg);
+  margin-top: 10px;
+}
+.single-txt.txt-2 {
+  transform: rotate(7deg);
+  margin-top: 10px;
+}
+
+header {
+  background: url(../img/bg.png);
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+.contact-btn {
+  background: #fff;
+  color: #000;
+  text-transform: capitalize;
+  font-size: 18px;
+  position: absolute;
+  right: 13px;
+  bottom: 15px;
+  padding: 5px 22px;
+  border-radius: 25px;
+  font-family: TTCommons-Medium;
+  display: inline-block;
+  padding-top: 8px;
+}
+.contact-btn:hover {
+  color: #000;
+}
+
+
+
+.shp{
+  display: none;
+}
+
+.title img {
+    margin-bottom: 25px;
+    width: 200px;
+}
+.logo a {
+    display: inline-block;
+}
+.logo {
+    display: inline-block;
+}
+
+
+.single-txt img {
+    width: 32px;
+    margin-right: ;
+    margin-left: 10px;
+    padding-top: 1px;
+}
+.single-txt {
+    text-align: center;
+    position: relative;
+    margin-bottom: 100px;
+}
+
+.main-fetured.frd-1 {
+    text-align: right;
+}
+
+.main-fetured.frd-2 {
+    text-align: center;
+    padding-top: 145px;
+}
+.row.featured-warpp {
+    margin-top: -85px;
+}
+.single-txt.text-2 p {
+    transform: rotate(7deg);
+    margin-top: 20px
+}
+.single-txt.text-2 img {
+    width: 36px;
+}
+
+.row.featured-warpp {
+    margin-top: -85px;
+    padding-bottom: 60px;
+}
+.main-fetured.frd-1 img {
+  margin-left: 100px;
+}
+.main-fetured.frd-3 img {
+  margin-left: -30px;
+}

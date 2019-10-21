@@ -1,1 +1,0 @@
-# naghdy.github.io
