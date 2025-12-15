@@ -480,7 +480,9 @@
                 return {
                     Title: columns[1] ? columns[1].replace(/['"]/g, '') : "Unknown",
                     Author: columns[2] ? columns[2].replace(/['"]/g, '') : "Unknown",
-                    ISBN: isbn13 || isbn10,
+                    ISBN: isbn13 || isbn10, // Display preference
+                    ISBN10: isbn10,
+                    ISBN13: isbn13,
                     OriginalYear: columns[12] || "",
                     Shelf: columns[18] || "",
                     DateRead: columns[15] || "",
@@ -490,71 +492,99 @@
         }
 
         function setCoverImage(imgEl, book) {
-            const isbn = book.ISBN.replace(/[^0-9X]/g, '');
-            const localUrl = `images/covers/${isbn}.jpg`;
+            // Strict order: Local ISBN10 -> Local ISBN13 -> Online ISBN10 -> Online ISBN13 -> Online Title
+            const clean = (s) => s ? s.replace(/[^0-9X]/g, '') : '';
+            const i10 = clean(book.ISBN10);
+            const i13 = clean(book.ISBN13);
+            
+            const steps = [];
+            // Local 10 & 13
+            if (i10 && i10.length >= 10) steps.push({ type: 'local', id: i10 });
+            if (i13 && i13.length >= 10 && i13 !== i10) steps.push({ type: 'local', id: i13 });
+            // Online 10 & 13
+            if (i10 && i10.length >= 10) steps.push({ type: 'online', id: i10 });
+            if (i13 && i13.length >= 10 && i13 !== i10) steps.push({ type: 'online', id: i13 });
+            // Fallback Title
+            steps.push({ type: 'title' });
 
-            // STRATEGY: 
-            // 1. If ISBN exists: try Local -> OpenLibrary -> Google Books (ISBN).
-            // 2. If NO ISBN: Directly try Google Books (Title+Author).
+            let currentStep = 0;
+            
+            function next() {
+                if (!document.contains(imgEl)) return;
+                if (currentStep >= steps.length) {
+                    tryFallback(imgEl, book);
+                    return;
+                }
 
-            if (!isbn || isbn.length < 10) {
-                tryGoogleBooksByTitle(imgEl, book.Title, book.Author);
-                return;
+                const step = steps[currentStep++];
+                
+                if (step.type === 'local') {
+                    imgEl.src = `images/covers/${step.id}.jpg`;
+                    imgEl.onerror = next;
+                    imgEl.onload = function() {
+                         if (this.naturalWidth <= 1) next();
+                         else this.style.opacity = 1; 
+                    };
+                } else if (step.type === 'online') {
+                     tryOnlineIdentifier(imgEl, step.id, next);
+                } else if (step.type === 'title') {
+                    tryGoogleBooksByTitle(imgEl, book.Title, book.Author, next);
+                }
             }
-
-            const openLibraryUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`;
-
-            // Try Local First
-            imgEl.src = localUrl;
-            imgEl.onerror = function () {
-                // Try OpenLibrary
-                imgEl.src = openLibraryUrl;
-                imgEl.onerror = function () { tryGoogleBooks(imgEl, isbn, book.Title); }
-                // OpenLibrary sometimes returns a 1x1 pixel image if not found
-                imgEl.onload = function () { if (this.naturalWidth <= 1) { tryGoogleBooks(imgEl, isbn, book.Title); } else { this.style.opacity = 1; } }
-            };
-            imgEl.onload = function () { this.style.opacity = 1; };
+            
+            next();
         }
 
-        async function tryGoogleBooks(imgEl, isbn, bookTitle) {
+        function tryOnlineIdentifier(imgEl, isbn, onFail) {
+             // 1. Try OpenLibrary
+             const olImg = new Image();
+             olImg.src = `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`;
+             olImg.onload = function() {
+                 if (this.naturalWidth > 1) {
+                     imgEl.src = this.src;
+                     imgEl.style.opacity = 1;
+                 } else {
+                     // 1x1 pixel, try Google
+                     tryGoogleBooksAPI(imgEl, isbn, onFail);
+                 }
+             };
+             olImg.onerror = function() {
+                 tryGoogleBooksAPI(imgEl, isbn, onFail);
+             };
+        }
+
+        async function tryGoogleBooksAPI(imgEl, isbn, onFail) {
             try {
-                if (!document.contains(imgEl)) return;
                 const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
                 const data = await res.json();
-                if (data.items && data.items.length > 0) {
-                    const link = data.items[0].volumeInfo.imageLinks?.thumbnail;
-                    if (link && document.contains(imgEl)) {
-                        imgEl.src = link.replace('http://', 'https://');
-                        imgEl.style.opacity = 1;
-                        imgEl.onerror = () => tryFallback(imgEl, { Title: bookTitle });
-                        return;
-                    }
+                const link = data.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
+                if (link) {
+                    imgEl.src = link.replace('http://', 'https://');
+                    imgEl.onerror = onFail;
+                    imgEl.onload = () => { imgEl.style.opacity = 1; };
+                    return;
                 }
-                // If ISBN lookup fails, fallback to Title search
-                const book = { Title: bookTitle }; // approximate
-                // We don't have author easily passed here unless we refactor, but title is usually enough for a fallback attempt
-                tryFallback(imgEl, { Title: bookTitle });
-            } catch (e) { tryFallback(imgEl, { Title: bookTitle }); }
+            } catch(e) {}
+            onFail();
         }
 
-        async function tryGoogleBooksByTitle(imgEl, title, author) {
+        async function tryGoogleBooksByTitle(imgEl, title, author, onFail) {
             try {
-                if (!document.contains(imgEl)) return;
                 const query = `intitle:${encodeURIComponent(title)} ${author ? `+inauthor:${encodeURIComponent(author)}` : ''}`;
                 const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
                 const data = await res.json();
 
                 if (data.items && data.items.length > 0) {
                     const link = data.items[0].volumeInfo.imageLinks?.thumbnail;
-                    if (link && document.contains(imgEl)) {
+                    if (link) {
                         imgEl.src = link.replace('http://', 'https://');
-                        imgEl.style.opacity = 1;
-                        imgEl.onerror = () => tryFallback(imgEl, { Title: title });
+                        imgEl.onerror = onFail;
+                        imgEl.onload = () => { imgEl.style.opacity = 1; };
                         return;
                     }
                 }
-                tryFallback(imgEl, { Title: title });
-            } catch (e) { tryFallback(imgEl, { Title: title }); }
+                onFail();
+            } catch (e) { onFail(); }
         }
 
         function tryFallback(imgEl, book) {

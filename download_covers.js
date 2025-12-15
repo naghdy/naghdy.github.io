@@ -7,41 +7,57 @@
  * 3. Run: node download_covers.js
  * 
  * This script will:
- * - Read your Goodreads CSV URL
- * - Parse ISBNs
- * - Download covers from OpenLibrary/GoogleBooks
- * - Save them to an 'images/covers/' directory
+ * - Read local 'updated_books.csv'
+ * - Parse ISBN and ISBN13
+ * - Download covers from OpenLibrary/GoogleBooks for ALL valid IDs found
+ * - Save them to 'images/covers/'
  */
 
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
 
-// Your csv config
-const GOODREADS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO-DmKFr8w-VvQPBiQIuqGmHfDzDfCT6bjA63_0r2vkz8SOTv0t-cdw9PEDWzEpy08Vx9yUD_M6AiM/pub?gid=0&single=true&output=csv';
+// Local CSV file path
+const LOCAL_CSV_PATH = './updated_books.csv';
 const OUTPUT_DIR = './images/covers';
 
 if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
-console.log("Fetching CSV...");
+console.log("Reading local CSV...");
 
 async function run() {
     try {
-        const res = await fetch(GOODREADS_CSV_URL);
-        const text = await res.text();
+        if (!fs.existsSync(LOCAL_CSV_PATH)) {
+            console.error(`File not found: ${LOCAL_CSV_PATH}`);
+            return;
+        }
+
+        const text = fs.readFileSync(LOCAL_CSV_PATH, 'utf-8');
         const lines = text.split('\n').slice(1); // Skip header
 
         for (const line of lines) {
-            const cols = parseCSVLine(line);
-            // Index 6 = ISBN13, Index 5 = ISBN10
-            const isbn = (cols[6] || cols[5] || '').replace(/["=]/g, '').replace(/[^0-9X]/g, '');
-            const title = cols[1];
+            if (!line.trim()) continue;
 
-            if (isbn && isbn.length >= 10) {
-                console.log(`Checking ${title} (${isbn})...`);
-                await downloadCover(isbn);
+            const cols = parseCSVLine(line);
+            // Index 5 = ISBN, Index 6 = ISBN13
+            // Clean both identifiers
+            const rawIsbn = cols[5] ? cols[5].replace(/["=]/g, '').replace(/[^0-9X]/g, '') : '';
+            const rawIsbn13 = cols[6] ? cols[6].replace(/["=]/g, '').replace(/[^0-9X]/g, '') : '';
+
+            // Create a set of unique, valid ISBNs to try
+            const isbnsToTry = new Set();
+            if (rawIsbn.length >= 10) isbnsToTry.add(rawIsbn);
+            if (rawIsbn13.length >= 10) isbnsToTry.add(rawIsbn13);
+
+            const title = cols[1] || "Unknown Title";
+
+            if (isbnsToTry.size > 0) {
+                console.log(`Processing ${title}...`);
+                for (const isbn of isbnsToTry) {
+                    await downloadCover(isbn);
+                }
             }
         }
     } catch (e) {
@@ -65,14 +81,16 @@ function parseCSVLine(line) {
 async function downloadCover(isbn) {
     const filePath = path.join(OUTPUT_DIR, `${isbn}.jpg`);
     if (fs.existsSync(filePath)) {
-        console.log(`  -> Exists: ${filePath}`);
+        // console.log(`  -> Exists: ${isbn}`); 
         return;
     }
+
+    console.log(`  -> Downloading ${isbn}...`);
 
     // Try OpenLibrary
     const olUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`;
     if (await downloadFile(olUrl, filePath)) {
-        console.log(`  -> Downloaded from OpenLibrary`);
+        console.log(`     [OK] OpenLibrary`);
         return;
     }
 
@@ -83,13 +101,13 @@ async function downloadCover(isbn) {
         const link = gData.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
         if (link) {
             if (await downloadFile(link.replace('http:', 'https:'), filePath)) {
-                console.log(`  -> Downloaded from GoogleBooks`);
+                console.log(`     [OK] GoogleBooks`);
                 return;
             }
         }
     } catch (e) { }
 
-    console.log(`  -> No cover found`);
+    console.log(`     [FAIL] No cover found`);
 }
 
 function downloadFile(url, dest) {
