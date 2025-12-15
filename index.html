@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nabil Naghdy</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet">
@@ -624,7 +626,7 @@
                     const bgColor = stringToColor(book.Title);
                     bookEl.innerHTML = `
                         <div class="w-[96px] aspect-[2/3] bg-gray-50 border border-border dark:border-dark-border flex items-center justify-center relative overflow-hidden shadow-sm group-hover:shadow-md transition-all rounded-[2px] pointer-events-none">
-                           <img class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0 z-10" alt="${book.Title}">
+                           <img class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0 z-10" alt="${book.Title}" loading="lazy">
                            <div class="absolute inset-0 w-full h-full flex items-center justify-center p-2 text-center text-[8px] leading-tight font-medium text-gray-600 z-0" style="background-color: ${bgColor}">${book.Title}</div>
                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-20"></div>
                         </div>
