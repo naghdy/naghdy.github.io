@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nabil Naghdy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['IBM Plex Mono', 'monospace'] },
+                    colors: {
+                        primary: '#333333',
+                        secondary: '#888888',
+                        accent: '#F3F4F6',
+                        'accent-dark': '#262626',
+                        border: '#e5e5e5',
+                        dark: { bg: '#111111', card: '#1a1a1a', border: '#333333', text: '#eaeaea', textSec: '#a0a0a0' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .tab-active {
+            color: currentColor;
+            border-bottom: 2px solid currentColor;
+        }
+
+        .tab-inactive {
+            color: #888888;
+            border-bottom: 2px solid transparent;
+        }
+
+        .dark .tab-inactive {
+            color: #666666;
+        }
+
+        .dark .tab-inactive:hover {
+            color: #eaeaea;
+        }
+
+        /* Spotlight Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(600px circle at var(--x, 50%) var(--y, 50%), rgba(29, 78, 216, 0.04), transparent 40%);
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .dark body::before {
+            background: radial-gradient(600px circle at var(--x, 50%) var(--y, 50%), rgba(29, 78, 216, 0.06), transparent 40%);
+        }
+    </style>
+</head>
+
+<body
+    class="font-sans text-sm leading-relaxed text-primary bg-white dark:bg-dark-bg dark:text-dark-text transition-colors duration-300 min-h-screen">
+
+    <div class="max-w-4xl mx-auto px-6 md:px-12 relative">
+
+        <!-- Sticky Header with Backdrop Blur -->
+        <header
+            class="sticky top-0 z-50 py-6 md:py-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-white/90 dark:bg-dark-bg/90 backdrop-blur-md transition-colors duration-300">
+            <h1 class="font-mono text-lg font-medium tracking-tight">Nabil Naghdy</h1>
+
+            <div class="flex items-center gap-6">
+                <!-- Socials -->
+                <div class="flex gap-4">
+                    <a href="http://x.com/naghdy" target="_blank"
+                        class="text-secondary dark:text-dark-textSec hover:text-[#1DA1F2] dark:hover:text-[#1DA1F2] transition-colors scale-100 hover:scale-110 duration-200"
+                        title="Twitter">
+                        <svg role="img" viewBox="0 0 24 24" class="w-5 h-5 fill-current">
+                            <path
+                                d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
+                        </svg>
+                    </a>
+                    <a href="https://linkedin.com/in/nabilnaghdy" target="_blank"
+                        class="text-secondary dark:text-dark-textSec hover:text-[#0A66C2] dark:hover:text-[#0A66C2] transition-colors scale-100 hover:scale-110 duration-200"
+                        title="LinkedIn">
+                        <svg role="img" viewBox="0 0 24 24" class="w-5 h-5 fill-current">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.goodreads.com/user/show/22425145-nabil" target="_blank"
+                        class="text-secondary dark:text-dark-textSec hover:text-[#372416] dark:hover:text-[#d4bfa8] transition-colors scale-100 hover:scale-110 duration-200"
+                        title="Goodreads">
+                        <!-- Verified Goodreads SVG -->
+                        <svg role="img" viewBox="0 0 24 24" class="w-5 h-5 fill-current">
+                            <title>Goodreads</title>
+                            <path
+                                d="M11.43 24.019c-3.15-.078-5.91-.97-7.399-2.903-1.528-1.982-1.22-3.722.997-4.636 1.05-.434 2.502-.456 4.606.33 1.78.666 3.193 1.07 4.545.474 1.353-.596 1.96-2.09 1.428-4.275l-.265-1.09c-2.32 1.944-4.88 2.228-6.17 1.115-1.57-1.355-1.87-4.22-1.026-6.685C9.44 2.915 12.98 1.43 15.54 2.87c2.31 1.3 3.32 3.61 3.23 6.07l-.02 4.646c-.02 2.86.82 4.417 2.44 4.14 1.04-.176 1.75-.823 2.1-1.233-.08 1.334-.41 2.377-1.05 3.364-1.996 3.076-6.19 4.342-10.81 4.162zM9.81 12.01c.745 3.398 2.923 4.174 4.39 2.072.784-1.124 1.023-2.618.39-4.24-.716-1.83-2.228-2.657-3.665-1.74-1.927 1.22-1.637 2.72-1.115 3.908z" />
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Dark Mode Toggle -->
+                <button id="theme-toggle"
+                    class="text-secondary dark:text-dark-textSec hover:text-primary dark:hover:text-white transition-colors focus:outline-none p-2 rounded-full hover:bg-accent dark:hover:bg-accent-dark">
+                    <svg id="icon-moon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                        </path>
+                    </svg>
+                    <svg id="icon-sun" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Experience -->
+        <section id="work" class="mb-16">
+            <h2 class="font-mono text-xs text-secondary dark:text-dark-textSec mb-6 uppercase tracking-wider">Experience
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- Microsoft -->
+                <div
+                    class="group border border-border dark:border-dark-border p-4 rounded-sm flex items-center gap-3 hover:shadow-md dark:hover:bg-dark-card transition-all bg-white dark:bg-transparent">
+                    <div
+                        class="w-8 h-8 shrink-0 grayscale group-hover:grayscale-0 transition-all duration-300 opacity-80 group-hover:opacity-100">
+                        <svg viewBox="0 0 23 23" class="w-full h-full">
+                            <path fill="#f35325" d="M1 1h10v10H1z" />
+                            <path fill="#81bc06" d="M12 1h10v10H12z" />
+                            <path fill="#05a6f0" d="M1 12h10v10H1z" />
+                            <path fill="#ffba08" d="M12 12h10v10H12z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3
+                            class="font-medium text-primary dark:text-dark-text leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            Product (Ads)</h3>
+                        <div class="text-xs text-secondary dark:text-dark-textSec flex gap-1">
+                            <span>Microsoft</span><span class="font-mono opacity-50">2025-Pres</span></div>
+                    </div>
+                </div>
+                <!-- Google Retail -->
+                <div
+                    class="group border border-border dark:border-dark-border p-4 rounded-sm flex items-center gap-3 hover:shadow-md dark:hover:bg-dark-card transition-all bg-white dark:bg-transparent">
+                    <div
+                        class="w-8 h-8 shrink-0 grayscale group-hover:grayscale-0 transition-all duration-300 opacity-80 group-hover:opacity-100">
+                        <svg viewBox="0 0 24 24" class="w-full h-full">
+                            <path
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                fill="#4285F4" />
+                            <path
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                fill="#34A853" />
+                            <path
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.09z"
+                                fill="#FBBC05" />
+                            <path
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                fill="#EA4335" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3
+                            class="font-medium text-primary dark:text-dark-text leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            Product (Retail Ads)</h3>
+                        <div class="text-xs text-secondary dark:text-dark-textSec flex gap-1"><span>Google</span><span
+                                class="font-mono opacity-50">2022-2025</span></div>
+                    </div>
+                </div>
+                <!-- Google CRM -->
+                <div
+                    class="group border border-border dark:border-dark-border p-4 rounded-sm flex items-center gap-3 hover:shadow-md dark:hover:bg-dark-card transition-all bg-white dark:bg-transparent">
+                    <div
+                        class="w-8 h-8 shrink-0 grayscale group-hover:grayscale-0 transition-all duration-300 opacity-80 group-hover:opacity-100">
+                        <svg viewBox="0 0 24 24" class="w-full h-full">
+                            <path
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                fill="#4285F4" />
+                            <path
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                fill="#34A853" />
+                            <path
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.09z"
+                                fill="#FBBC05" />
+                            <path
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                fill="#EA4335" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3
+                            class="font-medium text-primary dark:text-dark-text leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            Product (CRM)</h3>
+                        <div class="text-xs text-secondary dark:text-dark-textSec flex gap-1"><span>Google</span><span
+                                class="font-mono opacity-50">2020-2022</span></div>
+                    </div>
+                </div>
+                <!-- Status.im -->
+                <div
+                    class="group border border-border dark:border-dark-border p-4 rounded-sm flex items-center gap-3 hover:shadow-md dark:hover:bg-dark-card transition-all bg-white dark:bg-transparent">
+                    <div
+                        class="w-8 h-8 shrink-0 flex items-center justify-center grayscale group-hover:grayscale-0 transition-all duration-300">
+                        <img src="images/status.png" class="w-full h-full object-contain" alt="Status.im">
+                    </div>
+                    <div>
+                        <h3
+                            class="font-medium text-primary dark:text-dark-text leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            COO</h3>
+                        <div class="text-xs text-secondary dark:text-dark-textSec flex gap-1">
+                            <span>Status.im</span><span class="font-mono opacity-50">2017-2020</span></div>
+                    </div>
+                </div>
+                <!-- Google Flights -->
+                <div
+                    class="group border border-border dark:border-dark-border p-4 rounded-sm flex items-center gap-3 hover:shadow-md dark:hover:bg-dark-card transition-all bg-white dark:bg-transparent">
+                    <div
+                        class="w-8 h-8 shrink-0 grayscale group-hover:grayscale-0 transition-all duration-300 opacity-80 opacity-80 group-hover:opacity-100">
+                        <svg viewBox="0 0 24 24" class="w-full h-full">
+                            <path
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                fill="#4285F4" />
+                            <path
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                fill="#34A853" />
+                            <path
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.09z"
+                                fill="#FBBC05" />
+                            <path
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                fill="#EA4335" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3
+                            class="font-medium text-primary dark:text-dark-text leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            Product (Flights)</h3>
+                        <div class="text-xs text-secondary dark:text-dark-textSec flex gap-1"><span>Google</span><span
+                                class="font-mono opacity-50">2015-2017</span></div>
+                    </div>
+                </div>
+                <!-- Google Maps -->
+                <div
+                    class="group border border-border dark:border-dark-border p-4 rounded-sm flex items-center gap-3 hover:shadow-md dark:hover:bg-dark-card transition-all bg-white dark:bg-transparent">
+                    <div
+                        class="w-8 h-8 shrink-0 grayscale group-hover:grayscale-0 transition-all duration-300 opacity-80 group-hover:opacity-100">
+                        <svg viewBox="0 0 24 24" class="w-full h-full">
+                            <path
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                fill="#4285F4" />
+                            <path
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                fill="#34A853" />
+                            <path
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.09z"
+                                fill="#FBBC05" />
+                            <path
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                fill="#EA4335" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3
+                            class="font-medium text-primary dark:text-dark-text leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            Product (Maps Monetization)</h3>
+                        <div class="text-xs text-secondary dark:text-dark-textSec flex gap-1"><span>Google</span><span
+                                class="font-mono opacity-50">2010-2015</span></div>
+                    </div>
+                </div>
+                <!-- Triana -->
+                <div
+                    class="group border border-border dark:border-dark-border p-4 rounded-sm flex items-center gap-3 hover:shadow-md dark:hover:bg-dark-card transition-all bg-white dark:bg-transparent">
+                    <div
+                        class="w-8 h-8 shrink-0 flex items-center justify-center grayscale group-hover:grayscale-0 transition-all duration-300">
+                        <svg viewBox="0 0 24 24" fill="none" class="w-6 h-6 text-purple-600" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3
+                            class="font-medium text-primary dark:text-dark-text leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            Founder</h3>
+                        <div class="text-xs text-secondary dark:text-dark-textSec flex gap-1"><span>Triana &
+                                ADZ</span><span class="font-mono opacity-50">2007-2010</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shelf -->
+        <section id="shelf" class="mb-16">
+            <div class="flex gap-6 border-b border-border dark:border-dark-border mb-8 overflow-x-auto">
+                <button id="tab-bookshelf" onclick="switchTab('bookshelf')"
+                    class="tab-active pb-2 font-serif text-lg font-medium transition-colors whitespace-nowrap">Bookshelf</button>
+                <button id="tab-patents" onclick="switchTab('patents')"
+                    class="tab-inactive pb-2 font-serif text-lg font-medium hover:text-primary transition-colors whitespace-nowrap">Patents</button>
+                <button id="tab-essays" onclick="switchTab('essays')"
+                    class="tab-inactive pb-2 font-serif text-lg font-medium hover:text-primary transition-colors whitespace-nowrap">Essays</button>
+
+            </div>
+
+            <div id="content-bookshelf" class="block">
+                <div id="home-books-grid" class="flex flex-col gap-y-4">
+                    <div class="text-secondary font-mono text-xs animate-pulse">Loading bookshelf...</div>
+                </div>
+            </div>
+
+            <div id="content-patents" class="hidden">
+                <ul id="patents-list" class="space-y-3">
+                    <li class="font-mono text-xs text-secondary animate-pulse">Loading patents...</li>
+                </ul>
+            </div>
+
+            <div id="content-essays" class="hidden">
+                <ul id="reading-list" class="space-y-3">
+                    <li class="font-mono text-xs text-secondary animate-pulse">Loading essays...</li>
+                </ul>
+            </div>
+
+        </section>
+
+        <footer
+            class="pt-6 border-t border-border dark:border-dark-border text-[10px] text-secondary dark:text-dark-textSec font-mono flex justify-between">
+            <span>© 2025 Nabil Naghdy</span>
+            <span>Last updated Dec 14</span>
+        </footer>
+
+    </div>
+
+    <script>
+        // Spotlight Effect
+        document.body.addEventListener('mousemove', e => {
+            document.body.style.setProperty('--x', `${e.clientX}px`);
+            document.body.style.setProperty('--y', `${e.clientY}px`);
+        });
+
+        // Dark Mode
+        const toggle = document.getElementById('theme-toggle');
+        const iconMoon = document.getElementById('icon-moon');
+        const iconSun = document.getElementById('icon-sun');
+
+        function updateTheme(isDark) {
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            }
+        }
+
+        toggle.addEventListener('click', () => {
+            const isDark = !document.documentElement.classList.contains('dark');
+            updateTheme(isDark);
+        });
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            updateTheme(true);
+        } else {
+            updateTheme(false);
+        }
+
+        const GOODREADS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO-DmKFr8w-VvQPBiQIuqGmHfDzDfCT6bjA63_0r2vkz8SOTv0t-cdw9PEDWzEpy08Vx9yUD_M6AiM/pub?gid=0&single=true&output=csv';
+        const READING_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQAQvVVzKKsq3ucgsBlTIeKYZPjXYtWUL3zTj0lsccneaDxCfOE04tRjkT1rr21Cftxate6hNy0TQ1b/pub?gid=0&single=true&output=csv';
+        const PATENTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT1ZBRf3DbG5b4x0ohqVapw-Y0U_nK5iIPcLp4MLMopcdmp9V5mXWXzKsp21jB7aJ4rorZStDjYOgBw/pub?gid=0&single=true&output=csv';
+
+        function formatDate(dateStr, format) {
+            const date = new Date(dateStr);
+            if (isNaN(date.getTime())) return dateStr;
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const yearFull = date.getFullYear();
+            const yearShort = String(yearFull).substring(2);
+            if (format === 'dd/mm/yy') return `${day}/${month}/${yearShort}`;
+            if (format === 'mm/yy') return `${month}/${yearShort}`;
+            return dateStr;
+        }
+
+        function stringToColor(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) { hash = str.charCodeAt(i) + ((hash << 5) - hash); }
+            const c = (hash & 0x00FFFFFF).toString(16).toUpperCase();
+            const hex = "00000".substring(0, 6 - c.length) + c;
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            const mix = (val) => Math.floor((val + 255) / 2);
+            return `rgb(${mix(r)}, ${mix(g)}, ${mix(b)})`;
+        }
+
+        function switchTab(tab) {
+            const tabs = ['bookshelf', 'patents', 'essays'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                const content = document.getElementById(`content-${t}`);
+                if (t === tab) {
+                    btn?.classList.add('tab-active');
+                    btn?.classList.remove('tab-inactive');
+                    content?.classList.remove('hidden');
+                    content?.classList.add('block');
+                } else {
+                    btn?.classList.remove('tab-active');
+                    btn?.classList.add('tab-inactive');
+                    content?.classList.remove('block');
+                    content?.classList.add('hidden');
+                }
+            });
+        }
+
+        async function robustFetch(url) {
+            try {
+                const response = await fetch(url);
+                if (response.ok) return await response.text();
+                throw new Error("Direct fetch failed");
+            } catch (directErr) {
+                try {
+                    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+                    const proxyRes = await fetch(proxyUrl);
+                    if (proxyRes.ok) return await proxyRes.text();
+                    throw new Error("Proxy fetch failed");
+                } catch (proxyErr) { throw proxyErr; }
+            }
+        }
+
+        async function fetchHomeBooks() {
+            const container = document.getElementById('home-books-grid');
+            try {
+                const text = await robustFetch(GOODREADS_CSV_URL);
+                const books = parseGoodreadsCSV(text);
+                books.sort((a, b) => {
+                    if (!a.DateAdded) return 1;
+                    if (!b.DateAdded) return -1;
+                    return new Date(b.DateAdded) - new Date(a.DateAdded);
+                });
+                renderHomeBooks(books, container);
+            } catch (error) { container.innerHTML = `<div class="text-red-500 font-mono text-xs">Failed to load books.</div>`; }
+        }
+
+        function parseCSVLine(line) {
+            const values = [];
+            let current = '';
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') inQuotes = !inQuotes;
+                else if (char === ',' && !inQuotes) { values.push(current.trim()); current = ''; }
+                else current += char;
+            }
+            values.push(current.trim());
+            return values;
+        }
+
+        function parseGoodreadsCSV(csvText) {
+            const lines = csvText.split('\n').filter(line => line.trim());
+            if (lines.length < 2) return [];
+            const headers = parseCSVLine(lines[0]);
+            const dateAddedIndex = headers.findIndex(h => h.toLowerCase().includes('date added'));
+            const addedIdx = dateAddedIndex > -1 ? dateAddedIndex : 16;
+            const dataLines = lines.slice(1);
+            return dataLines.map(line => {
+                const columns = parseCSVLine(line);
+                const isbn13 = columns[6] ? columns[6].replace(/["=]/g, '') : "";
+                const isbn10 = columns[5] ? columns[5].replace(/["=]/g, '') : "";
+                return {
+                    Title: columns[1] ? columns[1].replace(/['"]/g, '') : "Unknown",
+                    Author: columns[2] ? columns[2].replace(/['"]/g, '') : "Unknown",
+                    ISBN: isbn13 || isbn10,
+                    OriginalYear: columns[12] || "",
+                    Shelf: columns[18] || "",
+                    DateRead: columns[15] || "",
+                    DateAdded: columns[addedIdx] || ""
+                };
+            }).filter(book => book.Shelf === 'read');
+        }
+
+        function setCoverImage(imgEl, book) {
+            const isbn = book.ISBN.replace(/[^0-9X]/g, '');
+            const localUrl = `images/covers/${isbn}.jpg`;
+
+            // STRATEGY: 
+            // 1. If ISBN exists: try Local -> OpenLibrary -> Google Books (ISBN).
+            // 2. If NO ISBN: Directly try Google Books (Title+Author).
+
+            if (!isbn || isbn.length < 10) {
+                tryGoogleBooksByTitle(imgEl, book.Title, book.Author);
+                return;
+            }
+
+            const openLibraryUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`;
+
+            // Try Local First
+            imgEl.src = localUrl;
+            imgEl.onerror = function () {
+                // Try OpenLibrary
+                imgEl.src = openLibraryUrl;
+                imgEl.onerror = function () { tryGoogleBooks(imgEl, isbn, book.Title); }
+                // OpenLibrary sometimes returns a 1x1 pixel image if not found
+                imgEl.onload = function () { if (this.naturalWidth <= 1) { tryGoogleBooks(imgEl, isbn, book.Title); } else { this.style.opacity = 1; } }
+            };
+            imgEl.onload = function () { this.style.opacity = 1; };
+        }
+
+        async function tryGoogleBooks(imgEl, isbn, bookTitle) {
+            try {
+                if (!document.contains(imgEl)) return;
+                const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
+                const data = await res.json();
+                if (data.items && data.items.length > 0) {
+                    const link = data.items[0].volumeInfo.imageLinks?.thumbnail;
+                    if (link && document.contains(imgEl)) {
+                        imgEl.src = link.replace('http://', 'https://');
+                        imgEl.style.opacity = 1;
+                        imgEl.onerror = () => tryFallback(imgEl, { Title: bookTitle });
+                        return;
+                    }
+                }
+                // If ISBN lookup fails, fallback to Title search
+                const book = { Title: bookTitle }; // approximate
+                // We don't have author easily passed here unless we refactor, but title is usually enough for a fallback attempt
+                tryFallback(imgEl, { Title: bookTitle });
+            } catch (e) { tryFallback(imgEl, { Title: bookTitle }); }
+        }
+
+        async function tryGoogleBooksByTitle(imgEl, title, author) {
+            try {
+                if (!document.contains(imgEl)) return;
+                const query = `intitle:${encodeURIComponent(title)} ${author ? `+inauthor:${encodeURIComponent(author)}` : ''}`;
+                const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
+                const data = await res.json();
+
+                if (data.items && data.items.length > 0) {
+                    const link = data.items[0].volumeInfo.imageLinks?.thumbnail;
+                    if (link && document.contains(imgEl)) {
+                        imgEl.src = link.replace('http://', 'https://');
+                        imgEl.style.opacity = 1;
+                        imgEl.onerror = () => tryFallback(imgEl, { Title: title });
+                        return;
+                    }
+                }
+                tryFallback(imgEl, { Title: title });
+            } catch (e) { tryFallback(imgEl, { Title: title }); }
+        }
+
+        function tryFallback(imgEl, book) {
+            if (!document.contains(imgEl)) return;
+            const parent = imgEl.closest('div');
+            if (parent.querySelector('.generated-cover')) return;
+            // FORCE show the colored block if image fails
+            const bgColor = stringToColor(book.Title || "Book");
+            parent.innerHTML = `<div class="generated-cover absolute inset-0 w-full h-full flex items-center justify-center p-2 text-center text-[8px] leading-tight font-medium text-gray-600 z-10" style="background-color: ${bgColor};">${book.Title || 'No Cover'}</div>`;
+        }
+
+        function renderHomeBooks(books, container) {
+            container.innerHTML = '';
+            const groupedArgs = books.reduce((acc, book) => {
+                const getDateYear = (dateStr) => (dateStr ? (dateStr.match(/\d{4}/) || [null])[0] : null);
+                let year = getDateYear(book.DateRead) || getDateYear(book.DateAdded) || 'Unknown';
+                if (!acc[year]) acc[year] = [];
+                acc[year].push(book);
+                return acc;
+            }, {});
+
+            const years = Object.keys(groupedArgs).sort((a, b) => b - a);
+            years.forEach(year => {
+                const yearSection = document.createElement('div');
+                yearSection.className = "mb-4";
+                yearSection.innerHTML = `<h4 class="font-mono text-[10px] text-secondary dark:text-dark-textSec border-b border-border dark:border-dark-border pb-1 mb-3">${year}</h4>`;
+                const grid = document.createElement('div');
+                grid.className = "flex flex-wrap gap-2";
+
+                groupedArgs[year].forEach(book => {
+                    const bookEl = document.createElement('div');
+                    bookEl.className = "group cursor-pointer shrink-0";
+                    bookEl.onclick = function () { openModal(book); };
+                    const bgColor = stringToColor(book.Title);
+                    bookEl.innerHTML = `
+                        <div class="w-[96px] aspect-[2/3] bg-gray-50 border border-border dark:border-dark-border flex items-center justify-center relative overflow-hidden shadow-sm group-hover:shadow-md transition-all rounded-[2px] pointer-events-none">
+                           <img class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0 z-10" alt="${book.Title}">
+                           <div class="absolute inset-0 w-full h-full flex items-center justify-center p-2 text-center text-[8px] leading-tight font-medium text-gray-600 z-0" style="background-color: ${bgColor}">${book.Title}</div>
+                           <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-20"></div>
+                        </div>
+                    `;
+                    const img = bookEl.querySelector('img');
+                    setCoverImage(img, book);
+                    grid.appendChild(bookEl);
+                });
+                yearSection.appendChild(grid);
+                container.appendChild(yearSection);
+            });
+        }
+
+        let modalInitialized = false;
+        function setupModal() {
+            if (modalInitialized) return;
+            const modalHtml = `
+            <div id="book-modal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+                <div id="modal-backdrop" class="absolute inset-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm"></div>
+                <div class="bg-white dark:bg-dark-card border border-border dark:border-dark-border shadow-2xl p-6 md:p-8 max-w-2xl w-[90%] md:w-auto relative transform scale-95 transition-transform duration-300 flex flex-col md:flex-row gap-6 md:gap-8 rounded-lg">
+                    <button id="modal-close-btn" class="absolute top-4 right-4 text-secondary dark:text-dark-textSec hover:text-primary dark:hover:text-white">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                    <div class="w-full md:w-56 shrink-0 flex justify-center bg-gray-50 dark:bg-[#1a1a1a] items-center border border-border dark:border-dark-border aspect-[2/3] relative overflow-hidden rounded-sm">
+                        <div id="modal-cover-wrapper" class="w-full h-full relative"></div>
+                    </div>
+                    <div class="flex flex-col justify-center min-w-0">
+                        <h2 id="modal-title" class="text-xl md:text-2xl font-serif font-medium mb-2 leading-tight text-gray-900 dark:text-gray-100"></h2>
+                        <p id="modal-author" class="text-sm md:text-base text-secondary dark:text-dark-textSec font-mono mb-4"></p>
+                        <div class="space-y-2 text-xs font-mono text-secondary dark:text-dark-textSec mb-6">
+                            <div class="flex gap-2"><span class="uppercase tracking-wider w-16 opacity-50">Year</span><span id="modal-year" class="text-primary dark:text-dark-text"></span></div>
+                            <div class="flex gap-2"><span class="uppercase tracking-wider w-16 opacity-50">ISBN</span><span id="modal-isbn" class="text-primary dark:text-dark-text"></span></div>
+                        </div>
+                         <div class="flex gap-4 items-center">
+                            <a id="modal-link-gr" href="#" target="_blank" class="text-secondary dark:text-dark-textSec hover:text-[#372416] dark:hover:text-[#d4bfa8] transition-colors" title="Goodreads">
+                                <svg role="img" viewBox="0 0 24 24" class="w-6 h-6 fill-current"><title>Goodreads</title><path d="M17.346.026c.422-.083.859.037 1.179.325.346.284.55.705.557 1.153-.023.457-.247.88-.612 1.156l-2.182 1.748a.601.601 0 0 0-.255.43.52.52 0 0 0 .11.424 5.886 5.886 0 0 1 .832 6.58c-1.394 2.79-4.503 3.99-7.501 2.927a.792.792 0 0 0-.499-.01c-.224.07-.303.18-.453.383l-.014.02-.941 1.254s-.792.985.457.935c3.027-.119 3.817-.119 5.439-.01 2.641.18 3.806 1.903 3.806 3.275 0 1.623-1.036 3.383-3.809 3.383a117.46 117.46 0 0 0-5.517-.03c-.31.005-.597.013-.835.02-.228.006-.41.011-.52.011-.712 0-1.648-.186-1.66-1.068-.008-.729.624-1.12 1.11-1.172.43-.045.815.007 1.24.064.252.034.518.07.815.088.185.011.366.025.552.038.53.038 1.102.08 1.926.087.427.005.759.01 1.025.015.695.012.941.016 1.28-.015 1.248-.112 1.832-.61 1.832-1.376 0-.805-.584-1.264-1.698-1.414-1.564-.213-2.33-.163-3.72-.074a87.66 87.66 0 0 1-1.669.095c-.608.029-2.449.026-2.682-1.492-.053-.416-.073-1.116.807-2.325l.75-1.003c.36-.49.582-.898.053-1.559 0 0-.39-.468-.52-.638-1.215-1.587-1.512-4.08-.448-6.114 1.577-3.011 5.4-4.26 8.37-2.581.253.143.438.203.655.163.201-.032.27-.167.363-.344.02-.04.042-.082.067-.126.004-.01.241-.465.535-1.028l.734-1.41a1.493 1.493 0 0 1 1.041-.785ZM9.193 13.243c1.854.903 3.912.208 5.254-2.47 1.352-2.699.827-5.11-1.041-6.023C10.918 3.537 8.81 5.831 8.017 7.41c-1.355 2.698-.717 4.886 1.147 5.818Z"/></svg>
+                            </a>
+                            <a id="modal-link-amz" href="#" target="_blank" class="grayscale hover:grayscale-0 transition-all opacity-80 hover:opacity-100" title="Amazon">
+                                <img src="images/amazon.png" class="w-6 h-6 object-contain" alt="Amazon">
+                            </a>
+                            <a id="modal-link-aud" href="#" target="_blank" class="text-secondary dark:text-dark-textSec hover:text-[#F8981D] transition-colors" title="Audible">
+                                <svg role="img" viewBox="0 0 24 24" class="w-6 h-6 fill-current"><title>Audible</title><path d="M12.008 17.362L24 9.885v2.028l-11.992 7.509L0 11.912V9.886l12.008 7.477zm0-9.378c-2.709 0-5.085 1.363-6.448 3.47.111-.111.175-.175.286-.254 3.374-2.804 8.237-2.17 10.883 1.362l1.758-1.124c-1.394-2.044-3.786-3.454-6.48-3.454m0 3.47a4.392 4.392 0 0 0-3.548 1.821 3.597 3.597 0 0 1 2.139-.697c1.299 0 2.455.666 3.232 1.79l1.679-1.045c-.729-1.157-2.028-1.87-3.501-1.87M3.897 8.412c4.943-3.897 11.929-2.836 15.652 2.344l.031.032 1.822-1.125a11.214 11.214 0 0 0-9.394-5.085c-3.897 0-7.366 1.996-9.394 5.085.364-.412.824-.903 1.283-1.251"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+            document.getElementById('modal-backdrop').addEventListener('click', closeModal);
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+            modalInitialized = true;
+        }
+
+        function openModal(book) {
+            setupModal();
+            const modal = document.getElementById('book-modal');
+            const content = modal.querySelector('div.bg-white');
+            document.getElementById('modal-title').textContent = book.Title;
+            document.getElementById('modal-author').textContent = book.Author;
+            document.getElementById('modal-year').textContent = book.OriginalYear || (book.DateRead ? book.DateRead.split('/')[2] : "Unknown");
+            document.getElementById('modal-isbn').textContent = book.ISBN || "N/A";
+            document.getElementById('modal-link-gr').href = `https://www.goodreads.com/search?q=${book.ISBN || book.Title}`;
+            document.getElementById('modal-link-amz').href = `https://www.amazon.com/s?k=${book.ISBN || book.Title}`;
+            document.getElementById('modal-link-aud').href = `https://www.audible.com/search?keywords=${book.Title}`;
+
+            const wrapper = document.getElementById('modal-cover-wrapper');
+            const bgColor = stringToColor(book.Title);
+            wrapper.innerHTML = `
+                <img class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0 z-10" alt="${book.Title}">
+                <div class="absolute inset-0 w-full h-full flex items-center justify-center p-2 text-center text-[8px] leading-tight font-medium text-gray-600 z-0" style="background-color: ${bgColor}">${book.Title}</div>
+            `;
+            const img = wrapper.querySelector('img');
+            setCoverImage(img, book);
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('book-modal');
+            if (!modal) return;
+            const content = modal.querySelector('div.bg-white');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            document.body.style.overflow = '';
+        }
+
+        async function fetchReadingList() {
+            const container = document.getElementById('reading-list');
+            try {
+                const text = await robustFetch(READING_CSV_URL);
+                const items = parseReadingCSV(text);
+                items.sort((a, b) => new Date(b.Date) - new Date(a.Date));
+                renderReadingList(items, container);
+            } catch (error) { container.innerHTML = `<li class="text-secondary text-xs">Failed to load essays.</li>`; }
+        }
+
+        function parseReadingCSV(csvText) {
+            const lines = csvText.split('\n').filter(line => line.trim());
+            return lines.slice(1).map(line => {
+                const columns = parseCSVLine(line);
+                return { URL: columns[0] || "#", Title: columns[1] || "Untitled", Author: columns[2] || "Unknown", Date: columns[3] || "" };
+            });
+        }
+
+        function renderReadingList(items, container) {
+            container.innerHTML = '';
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.className = "group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 cursor-pointer mb-6 sm:mb-2";
+                const formattedDate = formatDate(item.Date, 'dd/mm/yy');
+                li.innerHTML = `
+                    <span class="font-mono text-secondary dark:text-dark-textSec text-xs w-20 shrink-0 group-hover:text-primary dark:group-hover:text-white transition-colors">${formattedDate}</span>
+                    <div class="flex flex-wrap gap-1 items-baseline">
+                        <a href="${item.URL}" target="_blank" class="font-medium underline decoration-border dark:decoration-dark-border decoration-1 underline-offset-4 group-hover:decoration-primary dark:group-hover:decoration-white transition-all text-primary dark:text-dark-text">${item.Title}</a>
+                        <span class="text-secondary dark:text-dark-textSec text-xs">by</span>
+                        <a href="${item.URL}" target="_blank" class="text-secondary dark:text-dark-textSec text-xs hover:text-primary dark:hover:text-white transition-colors">${item.Author}</a>
+                    </div>
+                `;
+                container.appendChild(li);
+            });
+        }
+
+        async function fetchPatents() {
+            const container = document.getElementById('patents-list');
+            if (!PATENTS_CSV_URL) return;
+            try {
+                const text = await robustFetch(PATENTS_CSV_URL);
+                const items = parsePatentsCSV(text);
+                items.sort((a, b) => new Date(b.Date) - new Date(a.Date));
+                renderPatentsList(items, container);
+            } catch (error) { container.innerHTML = `<li class="text-secondary text-xs">Failed to load patents.</li>`; }
+        }
+
+        function parsePatentsCSV(csvText) {
+            const lines = csvText.split('\n').filter(line => line.trim());
+            const startIndex = (lines[0].toLowerCase().includes('title') || lines[0].toLowerCase().includes('date')) ? 1 : 0;
+            return lines.slice(startIndex).map(line => {
+                const columns = parseCSVLine(line);
+                return { ID: columns[0] || "", Title: columns[1] || "Untitled", Date: columns[2] || "", URL: columns[3] || "#" };
+            });
+        }
+
+        function renderPatentsList(items, container) {
+            container.innerHTML = '';
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.className = "group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 cursor-pointer mb-6 sm:mb-2";
+                const formattedDate = formatDate(item.Date, 'mm/yy');
+                li.innerHTML = `
+                    <span class="font-mono text-secondary dark:text-dark-textSec text-xs w-20 shrink-0 group-hover:text-primary dark:group-hover:text-white transition-colors">${formattedDate}</span>
+                    <div class="flex flex-wrap gap-1 items-baseline">
+                        <a href="${item.URL}" target="_blank" class="font-medium underline decoration-border dark:decoration-dark-border decoration-1 underline-offset-4 group-hover:decoration-primary dark:group-hover:decoration-white transition-all text-primary dark:text-dark-text">${item.Title}</a>
+                        <span class="font-mono text-[10px] text-secondary dark:text-dark-textSec border border-border dark:border-dark-border rounded px-1 group-hover:border-primary dark:group-hover:border-white transition-colors">${item.ID}</span>
+                    </div>
+                `;
+                container.appendChild(li);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchHomeBooks();
+            fetchReadingList();
+            fetchPatents();
+        });
+    </script>
+</body>
+
+</html>

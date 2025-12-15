@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uses - My Name</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['IBM Plex Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#333333',
+                        secondary: '#888888',
+                        border: '#e5e5e5',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            color: #333333;
+            background-color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-sm leading-relaxed">
+
+    <div class="min-h-screen md:flex">
+
+        <!-- Sidebar -->
+        <aside
+            class="w-full md:w-72 md:h-screen md:fixed md:border-r border-border p-6 flex flex-col justify-between overflow-y-auto z-10 bg-white">
+            <div class="space-y-8">
+                <!-- Header / Bio -->
+                <div>
+                    <a href="index.html" class="block">
+                        <h1 class="font-mono text-lg font-medium mb-2 hover:text-secondary transition-colors">My Name
+                        </h1>
+                    </a>
+                    <p class="text-secondary mb-4 max-w-xs">
+                        I build high-performance interfaces at TechCorp. Exploring the intersection of design tools and
+                        engineering.
+                    </p>
+                    <div
+                        class="inline-flex items-center gap-2 px-2 py-1 border border-border rounded-full text-xs font-mono text-secondary">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        Online in SF
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:block space-y-2 font-mono text-secondary">
+                    <a href="projects.html" class="block hover:text-primary transition-colors">01. Work</a>
+                    <a href="index.html#writing" class="block hover:text-primary transition-colors">02. Reading</a>
+                    <a href="books.html" class="block hover:text-primary transition-colors">03. Books</a>
+                    <a href="#" class="block text-primary font-medium">04. Uses</a>
+                </nav>
+            </div>
+
+            <!-- Footer -->
+            <div class="hidden md:block">
+                <ul class="space-y-2 font-mono text-secondary text-xs">
+                    <li><a href="#" class="hover:text-primary flex items-center gap-1">Twitter <span
+                                class="text-[10px]">↗</span></a></li>
+                    <li><a href="#" class="hover:text-primary flex items-center gap-1">Email <span
+                                class="text-[10px]">↗</span></a></li>
+                    <li><a href="#" class="hover:text-primary flex items-center gap-1">LinkedIn <span
+                                class="text-[10px]">↗</span></a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="md:ml-72 flex-1 p-6 md:p-12 max-w-4xl">
+
+            <!-- Mobile Nav -->
+            <div class="md:hidden border-b border-border my-6 pb-4">
+                <a href="index.html"
+                    class="flex items-center gap-2 text-secondary font-mono text-xs hover:text-primary">
+                    <span class="text-[10px]">←</span> Back to Home
+                </a>
+            </div>
+
+            <header class="mb-12">
+                <h1 class="font-mono text-2xl font-medium mb-2">Uses</h1>
+                <p class="text-secondary max-w-xl">
+                    Everyday carry, hardware, software, and other tools I rely on to get work done.
+                </p>
+            </header>
+
+            <!-- Software / Apps -->
+            <section class="mb-16">
+                <h2
+                    class="font-mono text-xs text-secondary mb-8 uppercase tracking-wider sticky top-0 bg-white/90 backdrop-blur-sm py-2">
+                    Software & Apps</h2>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10">
+
+                    <!-- Item -->
+                    <div class="flex gap-4 group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-gray-100 border border-border flex items-center justify-center text-xl shrink-0 group-hover:bg-gray-50 transition-colors">
+                            ✈️
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-base mb-1">Flighty</h3>
+                            <p class="text-secondary text-xs mb-2">The absolute best flight tracker. Live activities,
+                                delay predictions, and lifetime stats.</p>
+                            <a href="#"
+                                class="font-mono text-[10px] text-secondary hover:text-primary border-b border-transparent hover:border-gray-300">flightyapp.com</a>
+                        </div>
+                    </div>
+
+                    <!-- Item -->
+                    <div class="flex gap-4 group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-gray-100 border border-border flex items-center justify-center text-xl shrink-0 group-hover:bg-gray-50 transition-colors">
+                            📝
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-base mb-1">Obsidian</h3>
+                            <p class="text-secondary text-xs mb-2">My second brain. I use it for daily notes, project
+                                planning, and long-form writing.</p>
+                            <a href="#"
+                                class="font-mono text-[10px] text-secondary hover:text-primary border-b border-transparent hover:border-gray-300">obsidian.md</a>
+                        </div>
+                    </div>
+
+                    <!-- Item -->
+                    <div class="flex gap-4 group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-gray-100 border border-border flex items-center justify-center text-xl shrink-0 group-hover:bg-gray-50 transition-colors">
+                            🎨
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-base mb-1">Figma</h3>
+                            <p class="text-secondary text-xs mb-2">Where all visual thinking happens. From rough
+                                wireframes to high-fidelity prototypes.</p>
+                            <a href="#"
+                                class="font-mono text-[10px] text-secondary hover:text-primary border-b border-transparent hover:border-gray-300">figma.com</a>
+                        </div>
+                    </div>
+
+                    <!-- Item -->
+                    <div class="flex gap-4 group">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-gray-100 border border-border flex items-center justify-center text-xl shrink-0 group-hover:bg-gray-50 transition-colors">
+                            ⌨️
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-base mb-1">VS Code</h3>
+                            <p class="text-secondary text-xs mb-2">My editor of choice. Minimal theme, Vim keybindings,
+                                and Copilot.</p>
+                            <a href="#"
+                                class="font-mono text-[10px] text-secondary hover:text-primary border-b border-transparent hover:border-gray-300">code.visualstudio.com</a>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Hardware -->
+            <section class="mb-16">
+                <h2
+                    class="font-mono text-xs text-secondary mb-8 uppercase tracking-wider sticky top-0 bg-white/90 backdrop-blur-sm py-2">
+                    Hardware</h2>
+
+                <ul class="border-t border-border">
+                    <li class="flex items-center justify-between py-4 border-b border-border">
+                        <span class="font-medium">MacBook Pro 14"</span>
+                        <span class="font-mono text-xs text-secondary">M3 Max, 64GB RAM</span>
+                    </li>
+                    <li class="flex items-center justify-between py-4 border-b border-border">
+                        <span class="font-medium">Pro Display XDR</span>
+                        <span class="font-mono text-xs text-secondary">Nano-texture glass</span>
+                    </li>
+                    <li class="flex items-center justify-between py-4 border-b border-border">
+                        <span class="font-medium">HHKB Professional Hybrid</span>
+                        <span class="font-mono text-xs text-secondary">Type-S, Snow</span>
+                    </li>
+                    <li class="flex items-center justify-between py-4 border-b border-border">
+                        <span class="font-medium">Leica Q2</span>
+                        <span class="font-mono text-xs text-secondary">Everyday camera</span>
+                    </li>
+                </ul>
+            </section>
+
+            <footer class="mt-20 pt-6 border-t border-border text-[10px] text-secondary font-mono flex justify-between">
+                <span>© 2025 My Name</span>
+                <span>Last updated Dec 14</span>
+            </footer>
+
+        </main>
+    </div>
+
+</body>
+
+</html>

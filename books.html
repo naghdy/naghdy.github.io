@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Library - My Name</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['IBM Plex Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#333333',
+                        secondary: '#888888',
+                        border: '#e5e5e5',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            color: #333333;
+            background-color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-sm leading-relaxed">
+
+    <div class="min-h-screen md:flex">
+
+        <!-- Sidebar (Same as index but with different highlighting) -->
+        <aside
+            class="w-full md:w-72 md:h-screen md:fixed md:border-r border-border p-6 flex flex-col justify-between overflow-y-auto z-10 bg-white">
+            <div class="space-y-8">
+                <!-- Header / Bio -->
+                <div>
+                    <a href="index.html" class="block">
+                        <h1 class="font-mono text-lg font-medium mb-2 hover:text-secondary transition-colors">My Name
+                        </h1>
+                    </a>
+                    <p class="text-secondary mb-4 max-w-xs">
+                        I build high-performance interfaces at TechCorp. Exploring the intersection of design tools and
+                        engineering.
+                    </p>
+                    <div
+                        class="inline-flex items-center gap-2 px-2 py-1 border border-border rounded-full text-xs font-mono text-secondary">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        Online in SF
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:block space-y-2 font-mono text-secondary">
+                    <a href="index.html#work" class="block hover:text-primary transition-colors">01. Work</a>
+                    <a href="index.html#writing" class="block hover:text-primary transition-colors">02. Reading</a>
+                    <a href="#" class="block text-primary font-medium">03. Books</a>
+                </nav>
+            </div>
+
+            <!-- Footer / Contact -->
+            <div class="hidden md:block">
+                <ul class="space-y-2 font-mono text-secondary text-xs">
+                    <li><a href="#" class="hover:text-primary flex items-center gap-1">Twitter <span
+                                class="text-[10px]">↗</span></a></li>
+                    <li><a href="#" class="hover:text-primary flex items-center gap-1">Email <span
+                                class="text-[10px]">↗</span></a></li>
+                    <li><a href="#" class="hover:text-primary flex items-center gap-1">LinkedIn <span
+                                class="text-[10px]">↗</span></a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="md:ml-72 flex-1 p-6 md:p-12 max-w-4xl">
+
+            <!-- Mobile Nav / Separator -->
+            <div class="md:hidden border-b border-border my-6 pb-4">
+                <a href="index.html"
+                    class="flex items-center gap-2 text-secondary font-mono text-xs hover:text-primary">
+                    <span class="text-[10px]">←</span> Back to Home
+                </a>
+            </div>
+
+            <header class="mb-12">
+                <h1 class="font-mono text-2xl font-medium mb-2">Library</h1>
+                <p class="text-secondary max-w-xl">
+                    A collection of books that have shaped my thinking on design, engineering, and philosophy.
+                </p>
+            </header>
+
+            <!-- Books Grid (Dynamic) -->
+            <section id="books-container">
+                <div class="text-secondary font-mono text-xs animate-pulse">Loading library...</div>
+            </section>
+
+            <footer class="mt-20 pt-6 border-t border-border text-[10px] text-secondary font-mono flex justify-between">
+                <span>© 2025 My Name</span>
+                <span>Last updated Dec 14</span>
+            </footer>
+
+        </main>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        // Expects Goodreads Export CSV format
+        // Columns used: 
+        // B (Index 1): Title
+        // C (Index 2): Author
+        // F (Index 5): ISBN/ISBN13
+        // M (Index 12): Original Publication Year
+        // P (Index 15): Date Read
+        // S (Index 18): Exclusive Shelf (Filter for 'read')
+
+        const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRO-DmKFr8w-VvQPBiQIuqGmHfDzDfCT6bjA63_0r2vkz8SOTv0t-cdw9PEDWzEpy08Vx9yUD_M6AiM/pub?gid=0&single=true&output=csv';
+
+        // Fallback data resembling Goodreads structure for testing/demo
+        const FALLBACK_DATA = [
+            { Title: "The Timeless Way of Building", Author: "Christopher Alexander", ISBN: "9780195024029", OriginalPublicationYear: "1979", DateRead: "2024/01/15", ExclusiveShelf: "read" },
+            { Title: "Grid Systems in Graphic Design", Author: "Josef Müller-Brockmann", ISBN: "9783721201451", OriginalPublicationYear: "1981", DateRead: "2024/03/10", ExclusiveShelf: "read" },
+            // ... more fallbacks could go here
+        ];
+
+        async function fetchBooks() {
+            const container = document.getElementById('books-container');
+            let books = [];
+
+            try {
+                let response;
+                let text;
+
+                try {
+                    // 1. Try direct fetch
+                    response = await fetch(GOOGLE_SHEET_CSV_URL);
+                    if (!response.ok) throw new Error("Status " + response.status);
+                    text = await response.text();
+                } catch (directError) {
+                    // 2. Direct failed, try Proxy
+                    console.warn("Direct fetch failed (" + directError.message + "), trying proxy...");
+                    try {
+                        response = await fetch('https://corsproxy.io/?' + encodeURIComponent(GOOGLE_SHEET_CSV_URL));
+                        if (!response.ok) throw new Error("Status " + response.status);
+                        text = await response.text();
+                    } catch (proxyError) {
+                        throw new Error("Proxy failed: " + proxyError.message);
+                    }
+                }
+
+                books = parseGoodreadsCSV(text);
+
+                if (books.length === 0) {
+                    console.warn("Parsed 0 books. Text preview:", text.substring(0, 100));
+                    if (text.trim().startsWith("<!DOCTYPE")) throw new Error("Received HTML instead of CSV. Check Sheet sharing permissions.");
+                } else {
+                    console.log(`Successfully parsed ${books.length} books.`);
+                    console.log("Sample Book 1:", books[0]);
+                    console.log("Sample Book 2:", books[1]);
+                    console.log("Sample Book 3:", books[2]);
+                }
+
+            } catch (error) {
+                console.error("Error fetching books:", error);
+                container.innerHTML = `<div class="text-red-500 font-mono text-xs p-4 border border-red-200 bg-red-50 rounded">
+                    <strong>Error loading data:</strong> ${error.message}<br>
+                    <span class="text-[10px] opacity-75">If you are opening this file locally (file://), browser security is strict. Try running 'python -m http.server' in this folder.</span>
+                </div>`;
+                return;
+            }
+
+            renderBooks(books, container);
+        }
+
+        // Robust CSV Parser that handles quoted fields containing commas
+        function parseCSVLine(line) {
+            const values = [];
+            let current = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    values.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            values.push(current.trim());
+            return values;
+        }
+
+        function parseGoodreadsCSV(csvText) {
+            const lines = csvText.split('\n').filter(line => line.trim());
+            // Skip header row
+            const dataLines = lines.slice(1);
+
+            const parsedBooks = dataLines.map(line => {
+                const columns = parseCSVLine(line);
+
+                // Smart ISBN: Try ISBN13 (Col G/Index 6) first, then ISBN (Col F/Index 5)
+                const isbn13 = columns[6] ? columns[6].replace(/["=]/g, '') : "";
+                const isbn10 = columns[5] ? columns[5].replace(/["=]/g, '') : "";
+                const finalIsbn = isbn13 || isbn10;
+
+                // Goodreads Export Column Mapping (0-indexed)
+                return {
+                    Title: columns[1] ? columns[1].replace(/['"]/g, '') : "Unknown Title",
+                    Author: columns[2] ? columns[2].replace(/['"]/g, '') : "Unknown Author",
+                    ISBN: finalIsbn,
+                    OriginalYear: columns[12] || "",
+                    DateRead: columns[15] || "",
+                    Shelf: columns[18] || ""
+                };
+            });
+
+            // Filter for 'read' only
+            return parsedBooks.filter(book => book.Shelf === 'read');
+        }
+
+        function getCoverUrl(isbn) {
+            if (!isbn) return null;
+            // Clean ISBN just in case
+            const cleanIsbn = isbn.replace(/[^0-9X]/g, '');
+            if (cleanIsbn.length < 10) return null;
+            // Drew's method: No parameters, just pure ISBN endpoint
+            return `https://covers.openlibrary.org/b/isbn/${cleanIsbn}-M.jpg`;
+        }
+
+        function renderBooks(books, container) {
+            container.innerHTML = '';
+
+            if (books.length === 0) {
+                container.innerHTML = '<div class="text-secondary font-mono text-xs">No books found or error loading data.</div>';
+                return;
+            }
+
+            // Group by Year Read
+            const groupedArgs = books.reduce((acc, book) => {
+                let year = 'Unknown';
+                if (book.DateRead) {
+                    // Try to extract year from various date formats (2024/01/01 or 2024-01-01 or just 2024)
+                    const match = book.DateRead.match(/\d{4}/);
+                    if (match) year = match[0];
+                }
+
+                if (!acc[year]) acc[year] = [];
+                acc[year].push(book);
+                return acc;
+            }, {});
+
+            // Sort years descending
+            const years = Object.keys(groupedArgs).sort((a, b) => b - a);
+
+            years.forEach(year => {
+                const yearSection = document.createElement('div');
+                yearSection.className = "mb-10";
+                yearSection.innerHTML = `<h2 class="font-mono text-xs text-secondary border-b border-border pb-2 mb-4 sticky top-0 bg-white/90 backdrop-blur-sm z-30">${year}</h2>`;
+
+                const grid = document.createElement('div');
+                grid.className = "grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4";
+
+                groupedArgs[year].forEach(book => {
+                    const bookEl = document.createElement('div');
+                    bookEl.className = "group cursor-pointer";
+                    // Add click handler for Modal
+                    bookEl.onclick = () => openModal(book);
+
+                    const coverUrl = getCoverUrl(book.ISBN);
+                    const originalYearText = book.OriginalYear ? ` (${book.OriginalYear})` : "";
+
+                    bookEl.innerHTML = `
+                        <div class="aspect-[2/3] bg-gray-100 border border-border flex items-center justify-center relative overflow-hidden shadow-sm group-hover:shadow-md transition-all">
+                            <span class="text-[10px] text-gray-300 font-mono text-center p-2">No Cover</span>
+                            ${coverUrl
+                            ? `<img src="${coverUrl}" alt="${book.Title}" 
+                                   class="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0 z-10" 
+                                   onload="if(this.naturalWidth > 1) { this.style.opacity = 1; } else { tryGoogleBooks(this, '${book.ISBN}'); } " 
+                                   onerror="tryGoogleBooks(this, '${book.ISBN}')">`
+                            : ``
+                        }
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-20"></div>
+                        </div>
+                        <h3 class="font-medium text-xs leading-tight mb-1" title="${book.Title}">${book.Title}<span class="text-secondary font-normal">${originalYearText}</span></h3>
+                        <p class="text-secondary text-[10px] truncate">${book.Author}</p>
+                    `;
+                    grid.appendChild(bookEl);
+                });
+
+                // (Inside renderBooks loop) ...
+
+                yearSection.appendChild(grid);
+                container.appendChild(yearSection);
+            });
+        }
+
+        // --- MODAL LOGIC ---
+        let currentModalArg = null; // Store current book if needed
+
+        function setupModal() {
+            if (document.getElementById('book-modal')) return;
+
+            const modalHtml = `
+            <div id="book-modal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+                <!-- Backdrop -->
+                <div class="absolute inset-0 bg-white/80 backdrop-blur-sm" onclick="closeModal()"></div>
+                
+                <!-- Modal Content -->
+                <div class="bg-white border border-border shadow-2xl p-6 md:p-8 max-w-2xl w-[90%] md:w-auto relative transform scale-95 transition-transform duration-300 flex flex-col md:flex-row gap-6 md:gap-8 rounded-lg">
+                    <button onclick="closeModal()" class="absolute top-4 right-4 text-secondary hover:text-primary">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+
+                    <!-- Cover -->
+                    <div class="w-full md:w-48 shrink-0 flex justify-center bg-gray-50 items-center border border-border aspect-[2/3] relative overflow-hidden" id="modal-cover-container">
+                        <img id="modal-cover" class="w-full h-full object-cover" src="" alt="">
+                    </div>
+
+                    <!-- Details -->
+                    <div class="flex flex-col justify-center min-w-0">
+                        <h2 id="modal-title" class="text-xl md:text-2xl font-serif font-medium mb-2 leading-tight text-gray-900"></h2>
+                        <p id="modal-author" class="text-sm md:text-base text-secondary font-mono mb-4"></p>
+                        
+                        <div class="space-y-2 text-xs font-mono text-secondary">
+                            <div class="flex gap-2">
+                                <span class="uppercase tracking-wider w-16 opacity-50">Year</span>
+                                <span id="modal-year" class="text-primary"></span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="uppercase tracking-wider w-16 opacity-50">ISBN</span>
+                                <span id="modal-isbn" class="text-primary"></span>
+                            </div>
+                            <!-- Add Rating/shelves here if desired -->
+                        </div>
+
+                         <div class="mt-6 pt-6 border-t border-border flex gap-4">
+                            <a id="modal-link-gr" href="#" target="_blank" class="text-xs font-mono border border-border px-3 py-2 rounded hover:bg-gray-50 transition-colors">Goodreads ↗</a>
+                            <a id="modal-link-amz" href="#" target="_blank" class="text-xs font-mono border border-border px-3 py-2 rounded hover:bg-gray-50 transition-colors">Amazon ↗</a>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+
+        function openModal(book) {
+            setupModal();
+            const modal = document.getElementById('book-modal');
+            const content = modal.querySelector('div.bg-white'); // The inner content div
+
+            // Populate Data
+            document.getElementById('modal-title').textContent = book.Title;
+            document.getElementById('modal-author').textContent = book.Author;
+            document.getElementById('modal-year').textContent = book.OriginalYear || book.DateRead.split('/')[2] || "Unknown";
+            document.getElementById('modal-isbn').textContent = book.ISBN || "N/A";
+
+            // Links
+            document.getElementById('modal-link-gr').href = `https://www.goodreads.com/search?q=${book.ISBN || book.Title}`;
+            document.getElementById('modal-link-amz').href = `https://www.amazon.com/s?k=${book.ISBN || book.Title}`;
+
+            // Cover Handling
+            const imgEl = document.getElementById('modal-cover');
+            // Re-use logic: Try clean URL first.
+            let coverUrl = getCoverUrl(book.ISBN);
+            if (coverUrl) {
+                imgEl.src = coverUrl;
+                // Add fallback logic for modal image too
+                imgEl.onload = function () {
+                    if (this.naturalWidth <= 1) tryGoogleBooks(this, book.ISBN);
+                }
+                imgEl.onerror = function () {
+                    tryGoogleBooks(this, book.ISBN);
+                }
+            } else {
+                imgEl.src = ''; // Placeholder
+                tryGoogleBooks(imgEl, book.ISBN);
+            }
+
+            // Animation classes
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+            document.body.style.overflow = 'hidden'; // Lock scroll
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('book-modal');
+            if (!modal) return;
+            const content = modal.querySelector('div.bg-white');
+
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            document.body.style.overflow = '';
+        }
+
+        // Close on ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Update CSS for cleaner grid
+        // document.addEventListener...
+
+
+        document.addEventListener('DOMContentLoaded', fetchBooks);
+    </script>
+</body>
+
+</html>
+```

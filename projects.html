@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selected Work - My Name</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['IBM Plex Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#333333',
+                        secondary: '#888888',
+                        border: '#e5e5e5',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            color: #333333;
+            background-color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-sm leading-relaxed">
+
+    <div class="min-h-screen md:flex">
+
+        <!-- Sidebar -->
+        <aside
+            class="w-full md:w-72 md:h-screen md:fixed md:border-r border-border p-6 flex flex-col justify-between overflow-y-auto z-10 bg-white">
+            <div class="space-y-8">
+                <!-- Header / Bio -->
+                <div>
+                    <a href="index.html" class="block">
+                        <h1 class="font-mono text-lg font-medium mb-2 hover:text-secondary transition-colors">My Name
+                        </h1>
+                    </a>
+                    <p class="text-secondary mb-4 max-w-xs">
+                        I build high-performance interfaces at TechCorp. Exploring the intersection of design tools and
+                        engineering.
+                    </p>
+                    <div
+                        class="inline-flex items-center gap-2 px-2 py-1 border border-border rounded-full text-xs font-mono text-secondary">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        Online in SF
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:block space-y-2 font-mono text-secondary">
+                    <a href="#" class="block text-primary font-medium">01. Work</a>
+                    <a href="index.html#writing" class="block hover:text-primary transition-colors">02. Reading</a>
+                    <a href="books.html" class="block hover:text-primary transition-colors">03. Books</a>
+                    <a href="uses.html" class="block hover:text-primary transition-colors">04. Uses</a>
+                </nav>
+            </div>
+
+            <!-- Footer -->
+            <div class="hidden md:block">
+                <ul class="space-y-2 font-mono text-secondary text-xs">
+                    <li><a href="#" class="hover:text-primary flex items-center gap-1">Twitter <span
+                                class="text-[10px]">↗</span></a></li>
+                    <li><a href="#" class="hover:text-primary flex items-center gap-1">Email <span
+                                class="text-[10px]">↗</span></a></li>
+                    <li><a href="#" class="hover:text-primary flex items-center gap-1">LinkedIn <span
+                                class="text-[10px]">↗</span></a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="md:ml-72 flex-1 p-6 md:p-12 max-w-4xl">
+
+            <!-- Mobile Nav -->
+            <div class="md:hidden border-b border-border my-6 pb-4">
+                <a href="index.html"
+                    class="flex items-center gap-2 text-secondary font-mono text-xs hover:text-primary">
+                    <span class="text-[10px]">←</span> Back to Home
+                </a>
+            </div>
+
+            <header class="mb-16">
+                <h1 class="font-mono text-2xl font-medium mb-2">Selected Work</h1>
+                <p class="text-secondary max-w-xl">
+                    A selection of projects that shaped my career, focusing on complex product challenges at scale.
+                </p>
+            </header>
+
+            <div class="space-y-24">
+
+                <!-- Project 1 -->
+                <section>
+                    <span class="font-mono text-xs text-secondary mb-2 block">2020 — 2023</span>
+                    <h2 class="text-xl font-medium mb-4">Google Flights</h2>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-secondary mb-6 leading-relaxed">
+                                Led the frontend capabilities for the new "Best Price Guarantee" feature.
+                                Worked closely with data engineering teams to visualize price history and predictions
+                                for millions of flight routes.
+                                Improved load time performance by 40% on mobile devices.
+                            </p>
+                            <ul class="flex flex-wrap gap-2">
+                                <li
+                                    class="px-2 py-1 bg-gray-50 border border-border rounded text-[10px] font-mono text-secondary">
+                                    High Scale</li>
+                                <li
+                                    class="px-2 py-1 bg-gray-50 border border-border rounded text-[10px] font-mono text-secondary">
+                                    Travel Tech</li>
+                                <li
+                                    class="px-2 py-1 bg-gray-50 border border-border rounded text-[10px] font-mono text-secondary">
+                                    Angular / Dart</li>
+                            </ul>
+                        </div>
+                        <!-- Placeholder for Project Image -->
+                        <div class="aspect-video bg-gray-100 border border-border flex items-center justify-center">
+                            <span class="text-xs text-secondary font-mono">Project Screenshot</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Project 2 -->
+                <section>
+                    <span class="font-mono text-xs text-secondary mb-2 block">2018 — 2020</span>
+                    <h2 class="text-xl font-medium mb-4">Google Maps Monetization</h2>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-secondary mb-6 leading-relaxed">
+                                Designed and implemented new ad formats for local businesses on Google Maps.
+                                Focused on keeping ads unobtrusive while maximizing relevance for users navigating
+                                locally.
+                                Shipped features to over 1B monthly active users.
+                            </p>
+                            <ul class="flex flex-wrap gap-2">
+                                <li
+                                    class="px-2 py-1 bg-gray-50 border border-border rounded text-[10px] font-mono text-secondary">
+                                    AdTech</li>
+                                <li
+                                    class="px-2 py-1 bg-gray-50 border border-border rounded text-[10px] font-mono text-secondary">
+                                    Geo</li>
+                            </ul>
+                        </div>
+                        <div class="aspect-video bg-gray-100 border border-border flex items-center justify-center">
+                            <span class="text-xs text-secondary font-mono">Project Screenshot</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Project 3 -->
+                <section>
+                    <span class="font-mono text-xs text-secondary mb-2 block">2017 — 2018</span>
+                    <h2 class="text-xl font-medium mb-4">Status</h2>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-secondary mb-6 leading-relaxed">
+                                Built the initial mobile wallet interface for the Status secure messaging app.
+                                Integrated Ethereum wallet functionality directly into the chat stream.
+                                Pioneered early patterns for Web3 mobile UX.
+                            </p>
+                            <ul class="flex flex-wrap gap-2">
+                                <li
+                                    class="px-2 py-1 bg-gray-50 border border-border rounded text-[10px] font-mono text-secondary">
+                                    Crypto / Web3</li>
+                                <li
+                                    class="px-2 py-1 bg-gray-50 border border-border rounded text-[10px] font-mono text-secondary">
+                                    React Native</li>
+                            </ul>
+                        </div>
+                        <div class="aspect-video bg-gray-100 border border-border flex items-center justify-center">
+                            <span class="text-xs text-secondary font-mono">Project Screenshot</span>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <footer class="mt-24 pt-6 border-t border-border text-[10px] text-secondary font-mono flex justify-between">
+                <span>© 2025 My Name</span>
+                <span>Last updated Dec 14</span>
+            </footer>
+
+        </main>
+    </div>
+
+</body>
+
+</html>
