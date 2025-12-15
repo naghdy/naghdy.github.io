@@ -513,7 +513,7 @@
             let currentStep = 0;
 
             function next() {
-                if (!document.contains(imgEl)) return;
+                // if (!document.contains(imgEl)) return;
                 if (currentStep >= steps.length) {
                     tryFallback(imgEl, book);
                     return;
