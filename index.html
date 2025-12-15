@@ -75,8 +75,8 @@
     <div class="max-w-4xl mx-auto px-6 md:px-12 relative">
 
         <!-- Sticky Header with Backdrop Blur -->
-        <header
-            class="sticky top-0 z-50 py-6 md:py-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-white/90 dark:bg-dark-bg/90 backdrop-blur-md transition-colors duration-300">
+        <header id="main-header"
+            class="sticky top-0 z-50 py-6 md:py-8 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-white/90 dark:bg-dark-bg/90 backdrop-blur-md transition-all duration-300">
             <h1 class="font-mono text-lg font-medium tracking-tight">Nabil Naghdy</h1>
 
             <div class="flex items-center gap-6">
@@ -105,9 +105,10 @@
                         <svg role="img" viewBox="0 0 24 24" class="w-5 h-5 fill-current">
                             <title>Goodreads</title>
                             <path
-                                d="M11.43 24.019c-3.15-.078-5.91-.97-7.399-2.903-1.528-1.982-1.22-3.722.997-4.636 1.05-.434 2.502-.456 4.606.33 1.78.666 3.193 1.07 4.545.474 1.353-.596 1.96-2.09 1.428-4.275l-.265-1.09c-2.32 1.944-4.88 2.228-6.17 1.115-1.57-1.355-1.87-4.22-1.026-6.685C9.44 2.915 12.98 1.43 15.54 2.87c2.31 1.3 3.32 3.61 3.23 6.07l-.02 4.646c-.02 2.86.82 4.417 2.44 4.14 1.04-.176 1.75-.823 2.1-1.233-.08 1.334-.41 2.377-1.05 3.364-1.996 3.076-6.19 4.342-10.81 4.162zM9.81 12.01c.745 3.398 2.923 4.174 4.39 2.072.784-1.124 1.023-2.618.39-4.24-.716-1.83-2.228-2.657-3.665-1.74-1.927 1.22-1.637 2.72-1.115 3.908z" />
+                                d="M17.346.026c.422-.083.859.037 1.179.325.346.284.55.705.557 1.153-.023.457-.247.88-.612 1.156l-2.182 1.748a.601.601 0 0 0-.255.43.52.52 0 0 0 .11.424 5.886 5.886 0 0 1 .832 6.58c-1.394 2.79-4.503 3.99-7.501 2.927a.792.792 0 0 0-.499-.01c-.224.07-.303.18-.453.383l-.014.02-.941 1.254s-.792.985.457.935c3.027-.119 3.817-.119 5.439-.01 2.641.18 3.806 1.903 3.806 3.275 0 1.623-1.036 3.383-3.809 3.383a117.46 117.46 0 0 0-5.517-.03c-.31.005-.597.013-.835.02-.228.006-.41.011-.52.011-.712 0-1.648-.186-1.66-1.068-.008-.729.624-1.12 1.11-1.172.43-.045.815.007 1.24.064.252.034.518.07.815.088.185.011.366.025.552.038.53.038 1.102.08 1.926.087.427.005.759.01 1.025.015.695.012.941.016 1.28-.015 1.248-.112 1.832-.61 1.832-1.376 0-.805-.584-1.264-1.698-1.414-1.564-.213-2.33-.163-3.72-.074a87.66 87.66 0 0 1-1.669.095c-.608.029-2.449.026-2.682-1.492-.053-.416-.073-1.116.807-2.325l.75-1.003c.36-.49.582-.898.053-1.559 0 0-.39-.468-.52-.638-1.215-1.587-1.512-4.08-.448-6.114 1.577-3.011 5.4-4.26 8.37-2.581.253.143.438.203.655.163.201-.032.27-.167.363-.344.02-.04.042-.082.067-.126.004-.01.241-.465.535-1.028l.734-1.41a1.493 1.493 0 0 1 1.041-.785ZM9.193 13.243c1.854.903 3.912.208 5.254-2.47 1.352-2.699.827-5.11-1.041-6.023C10.918 3.537 8.81 5.831 8.017 7.41c-1.355 2.698-.717 4.886 1.147 5.818Z" />
                         </svg>
                     </a>
+
                 </div>
 
                 <!-- Dark Mode Toggle -->
@@ -148,10 +149,11 @@
                     </div>
                     <div>
                         <h3
-                            class="font-medium text-primary dark:text-dark-text leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            class="font-medium text-primary dark:text-dark-text leading-tight group-hover:text-blue-700 dark:group-hover:text-blue-500 transition-colors">
                             Product (Ads)</h3>
                         <div class="text-xs text-secondary dark:text-dark-textSec flex gap-1">
-                            <span>Microsoft</span><span class="font-mono opacity-50">2025-Pres</span></div>
+                            <span>Microsoft</span><span class="font-mono opacity-50">2025-Pres</span>
+                        </div>
                     </div>
                 </div>
                 <!-- Google Retail -->
@@ -222,7 +224,8 @@
                             class="font-medium text-primary dark:text-dark-text leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                             COO</h3>
                         <div class="text-xs text-secondary dark:text-dark-textSec flex gap-1">
-                            <span>Status.im</span><span class="font-mono opacity-50">2017-2020</span></div>
+                            <span>Status.im</span><span class="font-mono opacity-50">2017-2020</span>
+                        </div>
                     </div>
                 </div>
                 <!-- Google Flights -->
@@ -496,7 +499,7 @@
             const clean = (s) => s ? s.replace(/[^0-9X]/g, '') : '';
             const i10 = clean(book.ISBN10);
             const i13 = clean(book.ISBN13);
-            
+
             const steps = [];
             // Local 10 & 13
             if (i10 && i10.length >= 10) steps.push({ type: 'local', id: i10 });
@@ -508,7 +511,7 @@
             steps.push({ type: 'title' });
 
             let currentStep = 0;
-            
+
             function next() {
                 if (!document.contains(imgEl)) return;
                 if (currentStep >= steps.length) {
@@ -517,40 +520,40 @@
                 }
 
                 const step = steps[currentStep++];
-                
+
                 if (step.type === 'local') {
                     imgEl.src = `images/covers/${step.id}.jpg`;
                     imgEl.onerror = next;
-                    imgEl.onload = function() {
-                         if (this.naturalWidth <= 1) next();
-                         else this.style.opacity = 1; 
+                    imgEl.onload = function () {
+                        if (this.naturalWidth <= 1) next();
+                        else this.style.opacity = 1;
                     };
                 } else if (step.type === 'online') {
-                     tryOnlineIdentifier(imgEl, step.id, next);
+                    tryOnlineIdentifier(imgEl, step.id, next);
                 } else if (step.type === 'title') {
                     tryGoogleBooksByTitle(imgEl, book.Title, book.Author, next);
                 }
             }
-            
+
             next();
         }
 
         function tryOnlineIdentifier(imgEl, isbn, onFail) {
-             // 1. Try OpenLibrary
-             const olImg = new Image();
-             olImg.src = `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`;
-             olImg.onload = function() {
-                 if (this.naturalWidth > 1) {
-                     imgEl.src = this.src;
-                     imgEl.style.opacity = 1;
-                 } else {
-                     // 1x1 pixel, try Google
-                     tryGoogleBooksAPI(imgEl, isbn, onFail);
-                 }
-             };
-             olImg.onerror = function() {
-                 tryGoogleBooksAPI(imgEl, isbn, onFail);
-             };
+            // 1. Try OpenLibrary
+            const olImg = new Image();
+            olImg.src = `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`;
+            olImg.onload = function () {
+                if (this.naturalWidth > 1) {
+                    imgEl.src = this.src;
+                    imgEl.style.opacity = 1;
+                } else {
+                    // 1x1 pixel, try Google
+                    tryGoogleBooksAPI(imgEl, isbn, onFail);
+                }
+            };
+            olImg.onerror = function () {
+                tryGoogleBooksAPI(imgEl, isbn, onFail);
+            };
         }
 
         async function tryGoogleBooksAPI(imgEl, isbn, onFail) {
@@ -564,7 +567,7 @@
                     imgEl.onload = () => { imgEl.style.opacity = 1; };
                     return;
                 }
-            } catch(e) {}
+            } catch (e) { }
             onFail();
         }
 
@@ -610,7 +613,7 @@
             years.forEach(year => {
                 const yearSection = document.createElement('div');
                 yearSection.className = "mb-4";
-                yearSection.innerHTML = `<h4 class="font-mono text-[10px] text-secondary dark:text-dark-textSec border-b border-border dark:border-dark-border pb-1 mb-3">${year}</h4>`;
+                yearSection.innerHTML = `<h4 class="font-mono text-xs text-secondary dark:text-dark-textSec border-b border-border dark:border-dark-border pb-1 mb-3">${year}</h4>`;
                 const grid = document.createElement('div');
                 grid.className = "flex flex-wrap gap-2";
 
@@ -645,7 +648,7 @@
                     <button id="modal-close-btn" class="absolute top-4 right-4 text-secondary dark:text-dark-textSec hover:text-primary dark:hover:text-white">
                         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
-                    <div class="w-full md:w-56 shrink-0 flex justify-center bg-gray-50 dark:bg-[#1a1a1a] items-center border border-border dark:border-dark-border aspect-[2/3] relative overflow-hidden rounded-sm">
+                    <div class="w-full md:w-40 shrink-0 flex justify-center bg-gray-50 dark:bg-[#1a1a1a] items-center border border-border dark:border-dark-border aspect-[2/3] relative overflow-hidden rounded-sm">
                         <div id="modal-cover-wrapper" class="w-full h-full relative"></div>
                     </div>
                     <div class="flex flex-col justify-center min-w-0">
@@ -790,6 +793,18 @@
             fetchHomeBooks();
             fetchReadingList();
             fetchPatents();
+
+            // Header Scroll Effect
+            const header = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    header.classList.remove('py-6', 'md:py-8');
+                    header.classList.add('py-3', 'md:py-4', 'shadow-sm');
+                } else {
+                    header.classList.add('py-6', 'md:py-8');
+                    header.classList.remove('py-3', 'md:py-4', 'shadow-sm');
+                }
+            });
         });
     </script>
 </body>
