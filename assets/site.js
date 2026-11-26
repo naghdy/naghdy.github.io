@@ -1,6 +1,4 @@
-/* naghdy.com: theme toggle, header shadow, bookshelf filter, and a temporary
-   fallback that loads Patents/Essays from the old Google Sheets while their
-   _data files are still empty. */
+/* naghdy.com: theme toggle, header shadow and bookshelf filter. */
 
 (() => {
   'use strict';
@@ -46,60 +44,9 @@
     set(new URLSearchParams(location.search).get('shelf') === 'favourites' ? 'favourites' : 'all');
   }
 
-  /* ---- Temporary Sheets fallback (remove once _data/patents.yml and essays.yml are filled) ---- */
-
-  const SHEETS = {
-    patents: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT1ZBRf3DbG5b4x0ohqVapw-Y0U_nK5iIPcLp4MLMopcdmp9V5mXWXzKsp21jB7aJ4rorZStDjYOgBw/pub?gid=0&single=true&output=csv',
-    essays: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQAQvVVzKKsq3ucgsBlTIeKYZPjXYtWUL3zTj0lsccneaDxCfOE04tRjkT1rr21Cftxate6hNy0TQ1b/pub?gid=0&single=true&output=csv'
-  };
-
-  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const safeUrl = (u) => { try { const x = new URL(String(u).trim()); return /^https?:$/.test(x.protocol) ? x.href : null; } catch { return null; } };
-  const toDate = (s) => { const d = new Date(String(s || '').trim().replace(/-/g, '/')); return isNaN(d) ? null : d; };
-
-  function parseCSV(text) {
-    const rows = []; let row = [], cell = '', q = false;
-    for (let i = 0; i < text.length; i++) {
-      const ch = text[i];
-      if (q) { if (ch === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += ch; }
-      else if (ch === '"') q = true;
-      else if (ch === ',') { row.push(cell); cell = ''; }
-      else if (ch === '\n' || ch === '\r') { if (ch === '\r' && text[i + 1] === '\n') i++; row.push(cell); rows.push(row); row = []; cell = ''; }
-      else cell += ch;
-    }
-    if (cell || row.length) { row.push(cell); rows.push(row); }
-    return rows.filter((r) => r.some((c) => c.trim()));
-  }
-
-  async function loadFallback(el) {
-    const feed = el.dataset.feed;
-    if (!SHEETS[feed]) return;
-    try {
-      const res = await fetch(SHEETS[feed]);
-      if (!res.ok) throw new Error(res.status);
-      let rows = parseCSV(await res.text());
-      if (rows.length && /title|date|url/i.test(rows[0].join(','))) rows = rows.slice(1);
-      const items = rows.map((r) => feed === 'patents'
-        ? { id: r[0], title: r[1], date: r[2], url: r[3] }
-        : { url: r[0], title: r[1], author: r[2], date: r[3] })
-        .sort((a, b) => (toDate(b.date) || 0) - (toDate(a.date) || 0));
-      if (!items.length) { el.innerHTML = '<p class="muted small">Nothing here yet.</p>'; return; }
-      el.innerHTML = `<ul class="entries">${items.map((it) => {
-        const d = toDate(it.date);
-        const label = d ? d.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : esc(it.date);
-        const href = safeUrl(it.url);
-        const title = href ? `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(it.title || 'Untitled')}</a>` : `<span>${esc(it.title || 'Untitled')}</span>`;
-        return `<li class="entry">${d ? `<time datetime="${d.toISOString().slice(0, 10)}">${label}</time>` : `<span class="date">${label}</span>`}<div>${title}${it.author ? `<span class="entry-meta">${esc(it.author)}</span>` : ''}${it.id ? `<span class="entry-tag">${esc(it.id)}</span>` : ''}</div></li>`;
-      }).join('')}</ul>`;
-    } catch {
-      el.closest('.section')?.setAttribute('hidden', '');
-    }
-  }
-
   document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initHeader();
     initShelfFilter();
-    document.querySelectorAll('.entries-fallback[data-feed]').forEach(loadFallback);
   });
 })();

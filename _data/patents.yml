@@ -1,8 +1,25 @@
-# One entry per patent, newest first. While this list is empty, the site falls
-# back to the old published Google Sheet (see assets/site.js) so nothing disappears.
-#
-# - id: US 1,234,567 B2
-#   title: Title of the patent
-#   date: 2019-05-01
-#   url: https://patents.google.com/patent/US1234567B2
-[]
+# One entry per patent, newest first.
+- id: US20190138563A1
+  title: Allocating communication resources via information technology infrastructure
+  date: 2022-04-26
+  url: https://patents.google.com/patent/US20190138563A1/
+- id: USD916719S1
+  title: Computer display screen with graphical user interface for navigation
+  date: 2021-04-20
+  url: https://patents.google.com/patent/USD916719S1
+- id: US20180157669A1
+  title: Graphical user interface to display commonly categorized entities
+  date: 2019-06-25
+  url: https://patents.google.com/patent/US20180157669A1/
+- id: USD830376S1
+  title: Computer display screen with transitional graphical user interface for navigation
+  date: 2018-10-09
+  url: https://patents.google.com/patent/USD830376S1
+- id: US20170068990A1
+  title: Providing Sponsored Content Items to a User
+  date: 2017-03-09
+  url: https://patents.google.com/patent/US20170068990A1
+- id: US20150019347A1
+  title: Viewport based display of advertisements
+  date: 2015-01-15
+  url: https://patents.google.com/patent/US20150019347A1

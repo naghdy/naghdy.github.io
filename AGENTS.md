@@ -9,7 +9,7 @@ Jekyll site built by GitHub Pages from `main` and served at https://naghdy.com (
 - `_layouts/`: `default.html` (header, footer) and `page.html` (prose pages).
 - `_includes/`: `head.html` (meta, Open Graph, JSON-LD), `icons.html` (SVG sprite, used as `<use href="#id">`), `book.html`, `entries.html`.
 - `assets/site.css`: hand-written CSS with light/dark tokens on `:root` and `:root[data-theme="dark"]`. The palette comes from the portrait.
-- `assets/site.js`: theme toggle, header shadow, bookshelf filter, and a temporary Sheets fallback (below).
+- `assets/site.js`: theme toggle, header shadow and bookshelf filter.
 - `images/portrait/`: web-sized square crops of the portrait (192/384/768, webp and jpg). The original photo is not in the repo.
 - `images/covers/<ISBN>.jpg`: local book covers. `images/og-card.png`: the share card.
 - `404.html`, `robots.txt`, `sitemap.xml` (generated from the pages), `site.webmanifest`, `favicon.*`, `apple-touch-icon.png`.
@@ -21,9 +21,6 @@ Jekyll site built by GitHub Pages from `main` and served at https://naghdy.com (
 - `patents.yml`: `id`, `title`, `date`, `url`.
 - `essays.yml`: `title`, `author`, `date`, `url`.
 
-While `patents.yml` or `essays.yml` is empty, the page loads that section from the old published Google Sheet (URLs in `SHEETS` in `site.js`) and hides it if the Sheet fails. Once both files are filled, delete the fallback block in `site.js`.
-
 ## When editing
 - Keep facts to what the owner has written; don't invent bios, titles or dates.
 - If the name, role or description changes, update `_config.yml`, the hero in `index.html` and `images/og-card.png`.
-- Escape anything rendered from the Sheets fallback (`esc`, `safeUrl` in `site.js`).
