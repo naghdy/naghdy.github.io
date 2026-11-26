@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://naghdy.com/sitemap.xml
