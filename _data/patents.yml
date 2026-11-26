@@ -1,0 +1,8 @@
+# One entry per patent, newest first. While this list is empty, the site falls
+# back to the old published Google Sheet (see assets/site.js) so nothing disappears.
+#
+# - id: US 1,234,567 B2
+#   title: Title of the patent
+#   date: 2019-05-01
+#   url: https://patents.google.com/patent/US1234567B2
+[]

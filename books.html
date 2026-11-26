@@ -1,0 +1,30 @@
+---
+layout: default
+title: Bookshelf
+description: Every book Nabil Naghdy has logged as read on Goodreads, by year, with favourites marked.
+permalink: /books/
+---
+{%- assign books = site.data.books -%}
+{%- assign favourites = books | where: "favourite", true -%}
+<section class="hero hero-sm container">
+  <p class="eyebrow"><a href="/">Nabil Naghdy</a></p>
+  <h1 class="display">Bookshelf</h1>
+  <p class="lede">{{ books.size }} books I've read, newest first. The {{ favourites.size }} marked with a star are favourites.</p>
+  <div class="chips" role="group" aria-label="Show">
+    <button type="button" class="chip" data-shelf="all" aria-pressed="true">All <span>{{ books.size }}</span></button>
+    <button type="button" class="chip" data-shelf="favourites" aria-pressed="false"><svg aria-hidden="true"><use href="#i-star"></use></svg>Favourites <span>{{ favourites.size }}</span></button>
+  </div>
+</section>
+
+<div class="container bookshelf" id="bookshelf">
+  {%- assign by_year = books | group_by_exp: "b", "b.read | slice: 0, 4" -%}
+  {%- for g in by_year %}
+  {%- assign favs_in_year = g.items | where: "favourite", true %}
+  <section class="year{% if favs_in_year.size == 0 %} no-favs{% endif %}" aria-labelledby="y-{{ g.name | default: 'undated' }}">
+    <h2 class="year-title" id="y-{{ g.name | default: 'undated' }}">{{ g.name | default: "Undated" }}<span>{{ g.items.size }} {% if g.items.size == 1 %}book{% else %}books{% endif %}</span></h2>
+    <ul class="shelf shelf-grid">
+      {%- for b in g.items %}{% include book.html book=b titles=true %}{% endfor %}
+    </ul>
+  </section>
+  {%- endfor %}
+</div>

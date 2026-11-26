@@ -1,7 +1,14 @@
+---
+layout: null
+permalink: /sitemap.xml
+---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for p in site.pages %}
+  {%- if p.noindex or p.url contains ".xml" or p.url contains ".txt" or p.url contains ".webmanifest" or p.url contains "/assets/" %}{% continue %}{% endif %}
   <url>
-    <loc>https://naghdy.com/</loc>
-    <lastmod>2026-11-26</lastmod>
+    <loc>{{ site.url }}{{ p.url | replace: "index.html", "" }}</loc>
+    <lastmod>{{ site.time | date: "%Y-%m-%d" }}</lastmod>
   </url>
+{%- endfor %}
 </urlset>

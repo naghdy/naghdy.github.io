@@ -1,0 +1,21 @@
+# Newest first. "end" can be "now".
+- role: Product, Ads
+  company: Microsoft
+  start: 2025
+  end: now
+- role: Product, Retail Ads
+  company: Google
+  start: 2022
+  end: 2025
+- role: Product, CRM
+  company: Google
+  start: 2020
+  end: 2022
+- role: Product, Flights
+  company: Google
+  start: 2015
+  end: 2017
+- role: Product, Maps
+  company: Google
+  start: 2010
+  end: 2015

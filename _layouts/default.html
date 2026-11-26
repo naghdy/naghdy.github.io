@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang }}">
+<head>
+{% include head.html %}
+</head>
+<body class="{{ page.body_class }}">
+{% include icons.html %}
+<a class="skip-link" href="#main">Skip to content</a>
+{%- assign now_page = site.pages | where: "url", "/now/" | first %}
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="Nabil Naghdy, home">
+      <picture>
+        <source srcset="/images/portrait/nabil-192.webp" type="image/webp">
+        <img src="/images/portrait/nabil-192.jpg" alt="" width="32" height="32">
+      </picture>
+      <span>Nabil Naghdy</span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/#work"{% if page.url == "/" %} class="nav-hide-sm"{% endif %}>Work</a>
+      <a href="/books/"{% if page.url == "/books/" %} aria-current="page"{% endif %}>Books</a>
+      {%- if now_page %}<a href="/now/"{% if page.url == "/now/" %} aria-current="page"{% endif %}>Now</a>{% endif %}
+      <a href="/#contact" class="nav-hide-sm">Contact</a>
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Dark mode" aria-pressed="false">
+        <svg class="icon-moon" aria-hidden="true"><use href="#i-moon"></use></svg>
+        <svg class="icon-sun" aria-hidden="true"><use href="#i-sun"></use></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+{{ content }}
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© {{ site.time | date: "%Y" }} Nabil Naghdy</span>
+    <span>Updated <time datetime="{{ site.time | date: '%Y-%m-%d' }}">{{ site.time | date: "%-d %b %Y" }}</time></span>
+  </div>
+</footer>
+</body>
+</html>

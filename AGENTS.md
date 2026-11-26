@@ -1,25 +1,29 @@
 # Working on naghdy.com
 
-Static site, no build step. GitHub Pages publishes `main` to https://naghdy.com (custom domain set by `CNAME`; don't remove it). Anything pushed to `main` goes live within a minute or two, so work on a branch and merge only when the owner says to publish.
+Jekyll site built by GitHub Pages from `main` and served at https://naghdy.com (custom domain set by `CNAME`; don't remove it). There is no local build step to run: GitHub builds on push. Anything pushed to `main` goes live within a minute or two, so work on a branch and merge only when the owner says to publish.
 
 ## Layout
-- `index.html`: single page. Experience is hand-written HTML. Icons come from the inline SVG sprite at the top of `<body>` (`<use href="#id">`).
-- `assets/site.css`: hand-written CSS with light/dark tokens on `:root` and `:root[data-theme="dark"]`.
-- `assets/site.js`: theme toggle, tabs, footer dates, and the three feeds.
-- `404.html`, `robots.txt`, `sitemap.xml`, `site.webmanifest`, `favicon.*`, `apple-touch-icon.png`, `images/og-image.png`: SEO and sharing.
-- `_config.yml`: Jekyll settings; underscore folders and the files listed under `exclude` are not published.
-- `_tools/`: Python/JS/PowerShell scripts and Goodreads export CSVs used once to download covers. Run them from the repo root after copying the CSV they expect there.
+- `index.html`: home page (intro, work, books, patents, essays, contact).
+- `books.html`: the full bookshelf at `/books/`, grouped by year, with an All / Favourites filter (`?shelf=favourites`).
+- `now.md`: a `/now` page drafted with placeholders. It has `published: false`, so it isn't built. Fill in the bracketed parts and delete that line to publish it; the nav link appears automatically.
+- `_layouts/`: `default.html` (header, footer) and `page.html` (prose pages).
+- `_includes/`: `head.html` (meta, Open Graph, JSON-LD), `icons.html` (SVG sprite, used as `<use href="#id">`), `book.html`, `entries.html`.
+- `assets/site.css`: hand-written CSS with light/dark tokens on `:root` and `:root[data-theme="dark"]`. The palette comes from the portrait.
+- `assets/site.js`: theme toggle, header shadow, bookshelf filter, and a temporary Sheets fallback (below).
+- `images/portrait/`: web-sized square crops of the portrait (192/384/768, webp and jpg). The original photo is not in the repo.
+- `images/covers/<ISBN>.jpg`: local book covers. `images/og-card.png`: the share card.
+- `404.html`, `robots.txt`, `sitemap.xml` (generated from the pages), `site.webmanifest`, `favicon.*`, `apple-touch-icon.png`.
 
-## Content that updates without code changes
-`assets/site.js` reads three Google Sheets published as CSV (URLs in `FEEDS`):
-- **Bookshelf**: a Goodreads export (columns by header name: Title, Author, ISBN, ISBN13, Original Publication Year, Date Read, Date Added, Exclusive Shelf). Only rows on the `read` shelf show, grouped by year read.
-- **Patents**: columns ID, Title, Date, URL (header row optional).
-- **Essays**: columns URL, Title, Author, Date (header row required).
+## Content lives in `_data/`
+- `experience.yml`: roles, newest first. The first entry feeds the JSON-LD job title.
+- `links.yml`: profile links shown in the hero and contact section, and used as JSON-LD `sameAs`.
+- `books.json`: books read, newest first. Fields: `title`, `author`, `published`, `read` (YYYY-MM-DD), `isbn`, `cover` (path or null), `goodreads` (book URL), `favourite` (true = shown with a star). Migrated from a Goodreads export dated Dec 2025; add newer books at the top.
+- `patents.yml`: `id`, `title`, `date`, `url`.
+- `essays.yml`: `title`, `author`, `date`, `url`.
 
-Covers try `images/covers/<ISBN10 or ISBN13>.jpg` first, then Open Library, then Google Books. Add a local JPG named by ISBN to fix a missing or wrong cover.
+While `patents.yml` or `essays.yml` is empty, the page loads that section from the old published Google Sheet (URLs in `SHEETS` in `site.js`) and hides it if the Sheet fails. Once both files are filled, delete the fallback block in `site.js`.
 
 ## When editing
 - Keep facts to what the owner has written; don't invent bios, titles or dates.
-- When the page changes, bump `dateModified` in the JSON-LD and `<lastmod>` in `sitemap.xml`.
-- If you change the name, role or description, update the matching `<title>`, meta description, Open Graph tags and `images/og-image.png`.
-- Escape anything rendered from the sheets (`escapeHtml`, `safeUrl` in `site.js`).
+- If the name, role or description changes, update `_config.yml`, the hero in `index.html` and `images/og-card.png`.
+- Escape anything rendered from the Sheets fallback (`esc`, `safeUrl` in `site.js`).

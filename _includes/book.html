@@ -1,0 +1,17 @@
+{%- assign b = include.book -%}
+<li class="book{% if b.favourite %} is-fav{% endif %}">
+  <a href="{{ b.goodreads }}" target="_blank" rel="noopener" title="{{ b.title | escape }}{% if b.author %} by {{ b.author | escape }}{% endif %}">
+    <span class="cover">
+      {%- if b.cover %}
+      <img src="{{ b.cover }}" alt="{{ b.title | escape }}{% if b.author %} by {{ b.author | escape }}{% endif %}" width="128" height="192" loading="lazy" decoding="async">
+      {%- else %}
+      <span class="cover-text">{{ b.title }}</span>
+      {%- endif %}
+      {%- if b.favourite %}<span class="fav-badge" title="Favourite"><svg aria-hidden="true"><use href="#i-star"></use></svg><span class="visually-hidden">Favourite</span></span>{% endif %}
+    </span>
+    {%- if include.titles %}
+    <span class="book-title">{{ b.title | split: ":" | first }}</span>
+    <span class="book-author">{{ b.author }}</span>
+    {%- endif %}
+  </a>
+</li>

@@ -1,0 +1,13 @@
+# Profiles shown in the header, contact section and structured data (sameAs).
+- name: LinkedIn
+  url: https://www.linkedin.com/in/nabilnaghdy
+  icon: linkedin
+  handle: in/nabilnaghdy
+- name: X
+  url: https://x.com/naghdy
+  icon: x
+  handle: "@naghdy"
+- name: Goodreads
+  url: https://www.goodreads.com/user/show/22425145-nabil
+  icon: goodreads
+  handle: What I'm reading

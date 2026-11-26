@@ -1,0 +1,18 @@
+{%- comment -%} Renders patents or essays from _data, or a sheet fallback while the data file is empty. {%- endcomment -%}
+{%- assign items = include.items -%}
+{%- if items and items.size > 0 %}
+<ul class="entries">
+  {%- for it in items %}
+  <li class="entry">
+    <time datetime="{{ it.date | date: '%Y-%m-%d' }}">{{ it.date | date: "%b %Y" }}</time>
+    <div>
+      <a href="{{ it.url }}" target="_blank" rel="noopener">{{ it.title }}</a>
+      {%- if it.author %}<span class="entry-meta">{{ it.author }}</span>{% endif %}
+      {%- if it.id %}<span class="entry-tag">{{ it.id }}</span>{% endif %}
+    </div>
+  </li>
+  {%- endfor %}
+</ul>
+{%- else %}
+<div class="entries-fallback" data-feed="{{ include.feed }}"><p class="muted small">Loading…</p></div>
+{%- endif %}

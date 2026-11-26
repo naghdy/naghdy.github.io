@@ -1,6 +1,17 @@
-# GitHub Pages runs Jekyll on this repo. Folders starting with "_" (like _tools/)
-# are never published; the files listed here are kept out of the live site too.
+# naghdy.com: built by GitHub Pages (Jekyll 3.10) from the main branch.
+# Edit content in _data/ (experience, links, books, patents, essays) and the pages below.
+title: Nabil Naghdy
+description: Product at Microsoft, working on ads. Previously product at Google across Retail Ads, CRM, Flights and Maps.
+url: https://naghdy.com
+lang: en
+twitter: naghdy
+markdown: kramdown
+permalink: pretty
 exclude:
   - README.md
   - AGENTS.md
   - CLAUDE.md
+  - _tools
+  - Gemfile
+  - Gemfile.lock
+  - vendor

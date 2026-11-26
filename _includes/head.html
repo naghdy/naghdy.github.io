@@ -1,0 +1,95 @@
+{%- assign page_title = page.seo_title | default: page.title | default: site.title -%}
+{%- if page.url != "/" and page.title -%}{%- assign page_title = page.title | append: " · " | append: site.title -%}{%- endif -%}
+{%- if page.url == "/" -%}{%- assign page_title = site.title | append: " · Product at Microsoft" -%}{%- endif -%}
+{%- assign page_desc = page.description | default: site.description -%}
+{%- assign canonical = page.url | replace: "index.html", "" | prepend: site.url -%}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page_title }}</title>
+<meta name="description" content="{{ page_desc | strip_html | strip }}">
+<meta name="author" content="Nabil Naghdy">
+{%- if page.noindex %}
+<meta name="robots" content="noindex">
+{%- else %}
+<link rel="canonical" href="{{ canonical }}">
+{%- endif %}
+
+<meta property="og:type" content="{% if page.url == '/' %}profile{% else %}website{% endif %}">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:title" content="{{ page_title }}">
+<meta property="og:description" content="{{ page_desc | strip_html | strip }}">
+<meta property="og:url" content="{{ canonical }}">
+<meta property="og:image" content="{{ site.url }}/images/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Nabil Naghdy, naghdy.com">
+<meta property="og:locale" content="en_US">
+{%- if page.url == "/" %}
+<meta property="profile:first_name" content="Nabil">
+<meta property="profile:last_name" content="Naghdy">
+{%- endif %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@{{ site.twitter }}">
+<meta name="twitter:creator" content="@{{ site.twitter }}">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#f4ece4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#171412" media="(prefers-color-scheme: dark)">
+
+<script>
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('theme'); } catch (e) {}
+    if (t !== 'dark' && t !== 'light') t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.theme = t;
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "{{ site.url }}/#person",
+      "name": "Nabil Naghdy",
+      "givenName": "Nabil",
+      "familyName": "Naghdy",
+      "url": "{{ site.url }}/",
+      "image": "{{ site.url }}/images/portrait/nabil-768.jpg",
+      "jobTitle": "{{ site.data.experience[0].role }}",
+      "worksFor": { "@type": "Organization", "name": "{{ site.data.experience[0].company }}" },
+      "sameAs": [{% for l in site.data.links %}"{{ l.url }}"{% unless forloop.last %}, {% endunless %}{% endfor %}]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ site.url }}/#website",
+      "url": "{{ site.url }}/",
+      "name": "{{ site.title }}",
+      "inLanguage": "en",
+      "publisher": { "@id": "{{ site.url }}/#person" }
+    },
+    {
+      "@type": "{% if page.url == '/' %}ProfilePage{% else %}WebPage{% endif %}",
+      "url": "{{ canonical }}",
+      "name": "{{ page_title }}",
+      "isPartOf": { "@id": "{{ site.url }}/#website" },
+      {%- if page.url == "/" %}
+      "mainEntity": { "@id": "{{ site.url }}/#person" },
+      {%- else %}
+      "about": { "@id": "{{ site.url }}/#person" },
+      {%- endif %}
+      "dateModified": "{{ site.time | date: '%Y-%m-%d' }}"
+    }
+  ]
+}
+</script>

@@ -1,10 +1,10 @@
 # naghdy.com
 
-Personal homepage of Nabil Naghdy, served by GitHub Pages from the `main` branch at https://naghdy.com.
+Personal homepage of Nabil Naghdy. Jekyll, built and served by GitHub Pages from the `main` branch at https://naghdy.com.
 
-- `index.html`: the whole site (experience, bookshelf, patents, essays)
-- `assets/site.css`, `assets/site.js`: styles and the code that loads the three Google Sheets feeds
-- `images/`: logos, social card, app icons and local book covers (`images/covers/<ISBN>.jpg`)
-- `_tools/`: one-off scripts and data used to build the cover set (not published)
+- `index.html`, `books.html`, `now.md` (draft): the pages
+- `_data/`: experience, links, books, patents and essays
+- `_layouts/`, `_includes/`, `assets/`: templates, styles and scripts
+- `images/`: portrait, share card, app icons and book covers
 
 See `AGENTS.md` for how to update content.
